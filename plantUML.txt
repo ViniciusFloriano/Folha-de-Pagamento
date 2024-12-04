@@ -1,0 +1,99 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+' Definição dos enums
+enum TipoUsuario {
+    ADMINISTRADOR
+    FUNCIONARIO
+}
+
+enum StatusUsuario {
+    ATIVADO
+    DESATIVADO
+}
+
+enum Tipo {
+    BENEFICIO
+    DESCONTO
+}
+
+' Classe abstrata Usuario
+abstract class Usuario {
+    - id : int
+    - nome : String
+    - email : String
+    - senha : String
+    - tipo : TipoUsuario
+    - status : StatusUsuario
+}
+
+' Classe abstrata Funcionario
+abstract class Funcionario {
+    - cargo : String
+    + {abstract} calcularPagamento() : double
+}
+
+' Classes especializadas de Funcionario
+class FuncionarioCLT {
+    - salarioMensal : double
+    - beneficiosDescontos : List<BeneficioDesconto>
+    + adicionarBeneficio(String, double) : void
+    + adicionarDesconto(String, double) : void
+    + resetarBeneficiosDescontos() : void
+}
+
+class FuncionarioHorista {
+    - salarioHora : double
+    - horasTrabalhadas : double
+    - valorHorasExtras : double
+    + registrarHoras(double) : void
+    + registrarHorasExtras(double) : void
+}
+
+class FuncionarioComissionado {
+    - salarioBase : double
+    - comissao : double
+    - vendasRealizadas : double
+    - bonus : double
+    + registrarVendas(double) : void
+    + registrarBonus(double) : void
+}
+
+' Classe BeneficioDesconto
+class BeneficioDesconto {
+    - descricao : String
+    - valor : double
+    - tipo : Tipo
+}
+
+' Classe Banco
+class Banco {
+    - id : int
+    - funcionario : Funcionario
+    - nomeBanco : String
+    - agencia : String
+    - numeroConta : String
+    - tipoConta : String
+}
+
+' Classe FolhaDePagamento
+class FolhaDePagamento {
+    - id : int
+    - funcionario : Funcionario
+    - dataGeracao : LocalDate
+    - periodoInicio : LocalDate
+    - periodoFim : LocalDate
+    - valorPago : double
+    - observacoes : String
+}
+
+' Relacionamentos
+Usuario <|-- Funcionario
+Funcionario <|-- FuncionarioCLT
+Funcionario <|-- FuncionarioHorista
+Funcionario <|-- FuncionarioComissionado
+FuncionarioCLT "1" *-- "1..*" BeneficioDesconto : possui
+Funcionario "1..*" *-- "1" Banco : tem
+Funcionario "1" *-- "0..*" FolhaDePagamento : pode ter
+
+@enduml
