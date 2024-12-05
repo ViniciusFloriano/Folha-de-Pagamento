@@ -17,8 +17,8 @@ enum Tipo {
     DESCONTO
 }
 
-' Classe abstrata Usuario
-abstract class Usuario {
+' Classe Usuario
+class Usuario {
     - id : int
     - nome : String
     - email : String
@@ -29,12 +29,12 @@ abstract class Usuario {
 
 ' Classe abstrata Funcionario
 abstract class Funcionario {
-    - cargo : String
     + {abstract} calcularPagamento() : double
 }
 
 ' Classes especializadas de Funcionario
 class FuncionarioCLT {
+    - cargo : String
     - salarioMensal : double
     - beneficiosDescontos : List<BeneficioDesconto>
     + adicionarBeneficio(String, double) : void
@@ -43,6 +43,7 @@ class FuncionarioCLT {
 }
 
 class FuncionarioHorista {
+    - cargo : String
     - salarioHora : double
     - horasTrabalhadas : double
     - valorHorasExtras : double
@@ -51,6 +52,7 @@ class FuncionarioHorista {
 }
 
 class FuncionarioComissionado {
+    - cargo : String
     - salarioBase : double
     - comissao : double
     - vendasRealizadas : double
@@ -95,5 +97,4 @@ Funcionario <|-- FuncionarioComissionado
 FuncionarioCLT "1" *-- "1..*" BeneficioDesconto : possui
 Funcionario "1..*" *-- "1" Banco : tem
 Funcionario "1" *-- "0..*" FolhaDePagamento : pode ter
-
 @enduml
