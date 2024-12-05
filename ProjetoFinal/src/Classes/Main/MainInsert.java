@@ -5,7 +5,7 @@ import Classes.DTO.FuncionarioCLT;
 import Classes.DTO.StatusUsuario;
 import Classes.DTO.TipoUsuario;
 import Classes.DTO.Usuario;
-public class UsuarioMainInsert {
+public class MainInsert {
 	public static void main(String[] args) {
 		
 		UsuarioBO usuarioBO = new UsuarioBO();
