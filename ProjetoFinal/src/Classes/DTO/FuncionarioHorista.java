@@ -1,15 +1,34 @@
 package Classes.DTO;
 public class FuncionarioHorista extends Funcionario {
+	private String cargo;
     private double salarioHora;
     private double horasTrabalhadas;
     private double valorHorasExtras;
 
     public FuncionarioHorista(String nome, String email, String senha, TipoUsuario tipo, StatusUsuario status, String cargo, double salarioHora) {
-        super(nome, email, senha, TipoUsuario.FUNCIONARIO, StatusUsuario.ATIVADO, cargo);
+        super(nome, email, senha, TipoUsuario.FUNCIONARIO, StatusUsuario.ATIVADO);
+        this.cargo = cargo;
         this.salarioHora = salarioHora;
     }
 
-    public void registrarHoras(double horas) {
+    //Getters e Setters
+    public String getCargo() { 
+    	return cargo; 
+    }
+    
+    public void setCargo(String cargo) { 
+    	this.cargo = cargo; 
+    }
+    
+    public double getSalarioHora() {
+		return salarioHora;
+	}
+
+	public void setSalarioHora(double salarioHora) {
+		this.salarioHora = salarioHora;
+	}
+
+	public void registrarHoras(double horas) {
         this.horasTrabalhadas += horas;
     }
 

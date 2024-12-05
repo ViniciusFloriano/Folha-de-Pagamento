@@ -2,16 +2,35 @@ package Classes.DTO;
 import java.util.ArrayList;
 import java.util.List;
 public class FuncionarioCLT extends Funcionario {
+	private String cargo;
     private double salarioMensal;
     private List<BeneficioDesconto> beneficiosDescontos;
 
     public FuncionarioCLT(String nome, String email, String senha, TipoUsuario tipo, StatusUsuario status, String cargo, double salarioMensal) {
-        super(nome, email, senha, TipoUsuario.FUNCIONARIO, StatusUsuario.ATIVADO, cargo);
+        super(nome, email, senha, TipoUsuario.FUNCIONARIO, StatusUsuario.ATIVADO);
+        this.cargo = cargo;
         this.salarioMensal = salarioMensal;
         this.beneficiosDescontos = new ArrayList<>();
     }
 
-    public void adicionarBeneficio(String descricao, double valor) {
+    // Getters e Setters
+    public String getCargo() { 
+    	return cargo; 
+    }
+    
+    public void setCargo(String cargo) { 
+    	this.cargo = cargo; 
+    }
+    
+    public double getSalarioMensal() {
+		return salarioMensal;
+	}
+
+	public void setSalarioMensal(double salarioMensal) {
+		this.salarioMensal = salarioMensal;
+	}
+
+	public void adicionarBeneficio(String descricao, double valor) {
         this.beneficiosDescontos.add(new BeneficioDesconto(descricao, valor, Tipo.BENEFICIO));
     }
 
