@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `folhapagamento`.`funcionario` (
    	FOREIGN KEY (`id`)
     REFERENCES `folhapagamento`.`usuario` (`id`)
     ON DELETE CASCADE
-    ON UPDATE NO ACTION)
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `folhapagamento`.`funcionario_clt` (
 	  FOREIGN KEY (`id`)
 	  REFERENCES `folhapagamento`.`funcionario` (`id`)
 	  ON DELETE CASCADE
-	  ON UPDATE NO ACTION)
+	  ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `folhapagamento`.`funcionario_horista` (
 	  FOREIGN KEY (`id`)
 	  REFERENCES `folhapagamento`.`funcionario` (`id`)
 	  ON DELETE CASCADE
-	  ON UPDATE NO ACTION)
+	  ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `folhapagamento`.`funcionario_comissionado` (
 	  FOREIGN KEY (`id`)
 	  REFERENCES `folhapagamento`.`funcionario` (`id`)
 	  ON DELETE CASCADE
-	  ON UPDATE NO ACTION)
+	  ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS `folhapagamento`.`beneficio_desconto` (
 	  FOREIGN KEY (`funcionario_id`)
 	  REFERENCES `folhapagamento`.`funcionario` (`id`)
 	  ON DELETE CASCADE
-	  ON UPDATE NO ACTION)
+	  ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `folhapagamento`.`banco` (
 	  FOREIGN KEY (`funcionario_id`)
 	  REFERENCES `folhapagamento`.`funcionario` (`id`)
 	  ON DELETE CASCADE
-	  ON UPDATE NO ACTION)
+	  ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -116,6 +116,6 @@ CREATE TABLE IF NOT EXISTS `folhapagamento`.`folha_pagamento` (
 	  FOREIGN KEY (`funcionario_id`)
 	  REFERENCES `folhapagamento`.`funcionario` (`id`)
 	  ON DELETE CASCADE
-	  ON UPDATE NO ACTION)
+	  ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
