@@ -162,4 +162,23 @@ final String NOMEDATABELA = "funcionario_horista";
             return null;
         }
     }*/	
+    
+    public int pegarId(int id) {
+        try {
+            Connection conn = Conexao.conectar();
+            String sql = "SELECT id FROM " + NOMEDATABELA + " WHERE id = " + id + ";";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            ps.close();
+            rs.close();
+            conn.close();
+        } catch (Exception e) {
+           e.printStackTrace();
+            return 0;
+        }
+        return 0;
+    }
 }

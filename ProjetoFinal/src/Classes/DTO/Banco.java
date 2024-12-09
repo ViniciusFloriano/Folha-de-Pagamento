@@ -4,10 +4,10 @@ public class Banco {
     private String nomeBanco;
     private String agencia;
     private String numeroConta;
-    private String tipoConta; // Corrente ou Poupança
+    private TipoConta tipoConta; // Corrente ou Poupança
 
     // Construtor
-    public Banco(Funcionario funcionario, String nomeBanco, String agencia, String numeroConta, String tipoConta) {
+    public Banco(Funcionario funcionario, String nomeBanco, String agencia, String numeroConta, TipoConta tipoConta) {
         this.funcionario = funcionario;
         this.nomeBanco = nomeBanco;
         this.agencia = agencia;
@@ -49,12 +49,11 @@ public class Banco {
 	}
 
 	public String getTipoConta() {
-		return tipoConta;
+		return tipoConta.name();
 	}
 
-	public void setTipoConta(String tipoConta) {
+	public void setTipoConta(TipoConta tipoConta) {
 		this.tipoConta = tipoConta;
 	}
-
     
 }

@@ -41,4 +41,8 @@ public class FuncionarioHoristaBO {
         return usuarioDAO.pesquisarTodos();
     }*/
 	
+    public int pegarId(int id){
+    	FuncionarioHoristaDAO funcionarioHoristaDAO = new FuncionarioHoristaDAO();
+        return funcionarioHoristaDAO.pegarId(id);
+    }
 }

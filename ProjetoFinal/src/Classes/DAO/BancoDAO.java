@@ -1,27 +1,23 @@
 package Classes.DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-//import java.util.ArrayList;
-//import java.util.List;
-import Classes.DTO.FuncionarioCLT;
+//import java.sql.ResultSet;
 import Classes.Conexao.Conexao;
-public class FuncionarioCLTDAO{
-    final String NOMEDATABELA = "funcionario_clt";
+import Classes.DTO.Banco;
+public class BancoDAO {
+	final String NOMEDATABELA = "banco";
     
-    public boolean inserir(FuncionarioCLT funcionarioclt, int idUsuario) {
+    public boolean inserir(Banco banco, int idFuncionario) {
         try {
             Connection conn = Conexao.conectar();
-            String sql1 = "INSERT INTO  funcionario (id, cargo) VALUES (" + idUsuario + ", ?);";
-            PreparedStatement ps1 = conn.prepareStatement(sql1);
-            ps1.setString(1, funcionarioclt.getCargo());
-            ps1.executeUpdate();
-            ps1.close();
-            String sql2 = "INSERT INTO " + NOMEDATABELA + " (id, salario_mensal) VALUES (" + idUsuario + ", ?);";
-            PreparedStatement ps2 = conn.prepareStatement(sql2);
-            ps2.setDouble(1, funcionarioclt.getSalarioMensal());
-            ps2.executeUpdate();
-            ps2.close();
+            String sql = "INSERT INTO " + NOMEDATABELA + " (funcionario_id, nome_banco, agencia, numero_conta, tipo_conta) VALUES (" + idFuncionario + ", ?, ?, ?, ?);";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, banco.getNomeBanco());
+            ps.setString(2, banco.getAgencia());
+            ps.setString(3, banco.getNumeroConta());
+            ps.setString(4, banco.getTipoConta());
+            ps.executeUpdate();
+            ps.close();
             conn.close();
             return true;
         } catch (Exception e) {
@@ -115,8 +111,8 @@ public class FuncionarioCLTDAO{
             return null;
         }
     }
-    */
-    public boolean existe(FuncionarioCLT funcionarioclt, int idUsuario) {
+    
+    public boolean existe(Banco banco, int idUsuario) {
         try {
             Connection conn = Conexao.conectar();
             String sql = "SELECT * FROM usuario, funcionario, " + NOMEDATABELA + " WHERE usuario.id = " + idUsuario + " AND usuario.id = funcionario.id AND funcionario.id = funcionario_clt.id;";
@@ -134,7 +130,7 @@ public class FuncionarioCLTDAO{
         }
         return false;
     }
-    /*
+    
     public List<Usuario> pesquisarTodos() {
         try {
             Connection conn = Conexao.conectar();
@@ -164,23 +160,4 @@ public class FuncionarioCLTDAO{
             return null;
         }
     }*/
-    
-	public int pegarId(int id) {
-	    try {
-	        Connection conn = Conexao.conectar();
-	        String sql = "SELECT id FROM " + NOMEDATABELA + " WHERE id = " + id + ";";
-	        PreparedStatement ps = conn.prepareStatement(sql);
-	        ResultSet rs = ps.executeQuery();
-	        if (rs.next()) {
-	            return rs.getInt(1);
-	        }
-	        ps.close();
-	        rs.close();
-	        conn.close();
-	    } catch (Exception e) {
-	       e.printStackTrace();
-	        return 0;
-	    }
-	    return 0;
-	}
 }

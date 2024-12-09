@@ -31,11 +31,11 @@ public class FuncionarioCLT extends Funcionario {
 	}
 
 	public void adicionarBeneficio(String descricao, double valor) {
-        this.beneficiosDescontos.add(new BeneficioDesconto(descricao, valor, Tipo.BENEFICIO));
+        this.beneficiosDescontos.add(new BeneficioDesconto(descricao, valor, TipoBenDes.BENEFICIO));
     }
 
     public void adicionarDesconto(String descricao, double valor) {
-        this.beneficiosDescontos.add(new BeneficioDesconto(descricao, valor, Tipo.DESCONTO));
+        this.beneficiosDescontos.add(new BeneficioDesconto(descricao, valor, TipoBenDes.DESCONTO));
     }
 
     public void resetarBeneficiosDescontos() {

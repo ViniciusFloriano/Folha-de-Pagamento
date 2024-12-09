@@ -1,17 +1,13 @@
 package Classes.BO;
-import Classes.DAO.UsuarioDAO;
-import Classes.DTO.Usuario;
-//import java.util.List;
-public class UsuarioBO {
+import Classes.DAO.FolhaDePagamentoDAO;
+import Classes.DTO.FolhaDePagamento;
+public class FolhaDePagamentoBO {
 
-    public boolean inserir(Usuario usuario){
-        if (existe(usuario) != true) {
-        	UsuarioDAO usuarioDAO = new UsuarioDAO();
-            return usuarioDAO.inserir(usuario);
-        }
-        return false;
+	public boolean inserir(FolhaDePagamento folhaDePagamento, int idFuncionario){
+		FolhaDePagamentoDAO folhaDePagamentoDAO = new FolhaDePagamentoDAO();
+        return folhaDePagamentoDAO.inserir(folhaDePagamento, idFuncionario);
     }
-    /*
+	/*
     public boolean alterar(Usuario usuario){
     	UsuarioDAO usuarioDAO = new UsuarioDAO();
         return usuarioDAO.alterar(usuario);
@@ -31,19 +27,14 @@ public class UsuarioBO {
     	UsuarioDAO usuarioDAO = new UsuarioDAO();
         return usuarioDAO.procurarPorDescricao(usuario);
     }
-    */
-    public boolean existe(Usuario usuario){
-    	UsuarioDAO usuarioDAO = new UsuarioDAO();
-        return usuarioDAO.existe(usuario);
+    
+    public boolean existe(FuncionarioCLT funcionarioclt, int idUsuario){
+    	FuncionarioCLTDAO funcionariocltDAO = new FuncionarioCLTDAO();
+        return funcionariocltDAO.existe(funcionarioclt, idUsuario);
     }
-    /*
+    
     public List<Usuario> pesquisarTodos(){
     	UsuarioDAO usuarioDAO = new UsuarioDAO();
         return usuarioDAO.pesquisarTodos();
     }*/
-    
-    public int pegarId(Usuario usuario){
-    	UsuarioDAO usuarioDAO = new UsuarioDAO();
-        return usuarioDAO.pegarId(usuario);
-    }
 }

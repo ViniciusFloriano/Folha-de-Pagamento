@@ -2,9 +2,9 @@ package Classes.DTO;
 public class BeneficioDesconto {
     private String descricao;
     private double valor;
-    private Tipo tipo;
+    private TipoBenDes tipo;
 
-    public BeneficioDesconto(String descricao, double valor, Tipo tipo) {
+    public BeneficioDesconto(String descricao, double valor, TipoBenDes tipo) {
         this.descricao = descricao;
         this.valor = valor;
         this.tipo = tipo;
@@ -30,7 +30,7 @@ public class BeneficioDesconto {
 		this.valor = valor;
 	}
 
-	public void setTipo(Tipo tipo) {
+	public void setTipo(TipoBenDes tipo) {
 		this.tipo = tipo;
 	}
     
