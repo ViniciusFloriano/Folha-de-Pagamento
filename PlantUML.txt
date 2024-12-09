@@ -12,9 +12,14 @@ enum StatusUsuario {
     DESATIVADO
 }
 
-enum Tipo {
+enum TipoBenDes {
     BENEFICIO
     DESCONTO
+}
+
+enum TipoConta {
+    CORRENTE
+    POUPANÇA
 }
 
 ' Classe Usuario
@@ -75,7 +80,7 @@ class Banco {
     - nomeBanco : String
     - agencia : String
     - numeroConta : String
-    - tipoConta : String
+    - tipoConta : TipoConta
 }
 
 ' Classe FolhaDePagamento
