@@ -41,4 +41,9 @@ public class FuncionarioCLTBO {
 	    	UsuarioDAO usuarioDAO = new UsuarioDAO();
 	        return usuarioDAO.pesquisarTodos();
 	    }*/
+	    
+	    public int pegarId(int id){
+	    	FuncionarioCLTDAO funcionariocltDAO = new FuncionarioCLTDAO();
+	        return funcionariocltDAO.pegarId(id);
+	    }
 }

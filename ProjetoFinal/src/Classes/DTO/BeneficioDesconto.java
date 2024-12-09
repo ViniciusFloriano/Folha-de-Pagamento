@@ -18,8 +18,8 @@ public class BeneficioDesconto {
         return valor;
     }
 
-    public Tipo getTipo() {
-        return tipo;
+    public String getTipo() {
+        return tipo.name();
     }
 
 	public void setDescricao(String descricao) {

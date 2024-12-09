@@ -45,12 +45,12 @@ public class FuncionarioCLT extends Funcionario {
     @Override
     public double calcularPagamento() {
         double totalBeneficios = beneficiosDescontos.stream()
-                .filter(bd -> bd.getTipo() == Tipo.BENEFICIO)
+                .filter(bd -> bd.getTipo().equals("BENEFICIO"))
                 .mapToDouble(BeneficioDesconto::getValor)
                 .sum();
 
         double totalDescontos = beneficiosDescontos.stream()
-                .filter(bd -> bd.getTipo() == Tipo.DESCONTO)
+                .filter(bd -> bd.getTipo().equals("DESCONTO"))
                 .mapToDouble(BeneficioDesconto::getValor)
                 .sum();
 

@@ -37,5 +37,20 @@ public class MainInsert {
 			System.out.println("Erro ao Inserir");			
 		}
 		
+		int idFuncionarioCLT1 = funcionariocltBO.pegarId(idUsuario1);
+		
+		BeneficioDescontoBO beneficioDescontoBO = new BeneficioDescontoBO();
+		BeneficioDesconto beneficioDesconto1 = new BeneficioDesconto("Vale Transporte", 800, Tipo.BENEFICIO);
+		BeneficioDesconto beneficioDesconto2 = new BeneficioDesconto("Vale Alimentação", 800, Tipo.BENEFICIO);
+		BeneficioDesconto beneficioDesconto3 = new BeneficioDesconto("INSS", funcionarioclt.getSalarioMensal() * 0.09, Tipo.DESCONTO);
+		BeneficioDesconto beneficioDesconto4 = new BeneficioDesconto("FGTS", funcionarioclt.getSalarioMensal() * 0.08, Tipo.DESCONTO);
+		
+		if (beneficioDescontoBO.inserir(beneficioDesconto1, idFuncionarioCLT1) && beneficioDescontoBO.inserir(beneficioDesconto2, idFuncionarioCLT1) && beneficioDescontoBO.inserir(beneficioDesconto3, idFuncionarioCLT1) && beneficioDescontoBO.inserir(beneficioDesconto4, idFuncionarioCLT1)) {
+			System.out.println("Inserido com Sucesso");
+			
+		} else {
+			System.out.println("Erro ao Inserir");			
+		}
+		
 	}
 }
