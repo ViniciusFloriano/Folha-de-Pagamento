@@ -19,7 +19,7 @@ enum TipoBenDes {
 
 enum TipoConta {
     CORRENTE
-    POUPANÇA
+    POUPANCA
 }
 
 ' Classe Usuario
