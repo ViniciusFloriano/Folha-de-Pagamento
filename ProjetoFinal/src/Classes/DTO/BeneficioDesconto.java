@@ -21,9 +21,20 @@ public class BeneficioDesconto {
     public Tipo getTipo() {
         return tipo;
     }
-}
 
-enum Tipo {
-    BENEFICIO, DESCONTO
-}
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
 
+	public void setValor(double valor) {
+		this.valor = valor;
+	}
+
+	public void setTipo(Tipo tipo) {
+		this.tipo = tipo;
+	}
+    
+    
+    
+    
+}

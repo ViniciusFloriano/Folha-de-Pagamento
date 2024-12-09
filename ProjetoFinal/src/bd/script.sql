@@ -61,6 +61,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `folhapagamento`.`funcionario_comissionado` (
     `id` INT NOT NULL,
     `salario_base` DECIMAL(10,2) NOT NULL,
+    `comissao_percentual` DECIMAL(5, 2) NOT NULL,
     PRIMARY KEY (`id`),
 	  FOREIGN KEY (`id`)
 	  REFERENCES `folhapagamento`.`funcionario` (`id`)
