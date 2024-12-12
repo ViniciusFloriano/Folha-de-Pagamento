@@ -11,10 +11,10 @@ public class UsuarioBO {
         }
         return false;
     }
-    /*
-    public boolean alterar(Usuario usuario){
+    
+    public boolean alterar(Usuario usuario, int idUsuario){
     	UsuarioDAO usuarioDAO = new UsuarioDAO();
-        return usuarioDAO.alterar(usuario);
+        return usuarioDAO.alterar(usuario, idUsuario);
     }
     
     public boolean excluir(Usuario usuario){
@@ -22,11 +22,16 @@ public class UsuarioBO {
         return usuarioDAO.excluir(usuario);
     }
     
-    public Usuario procurarPorCodigo(Usuario usuario){
+    public Usuario procurarPorNome(Usuario usuario, String pesquisa){
     	UsuarioDAO usuarioDAO = new UsuarioDAO();
-        return usuarioDAO.procurarPorCodigo(usuario);
+        return usuarioDAO.procurarPorNome(usuario, pesquisa);
     }
     
+    public Usuario procurarPorEmail(Usuario usuario, String pesquisa){
+    	UsuarioDAO usuarioDAO = new UsuarioDAO();
+        return usuarioDAO.procurarPorEmail(usuario, pesquisa);
+    }
+    /*
     public Usuario procurarPorDescricao(Usuario usuario){
     	UsuarioDAO usuarioDAO = new UsuarioDAO();
         return usuarioDAO.procurarPorDescricao(usuario);
@@ -45,5 +50,14 @@ public class UsuarioBO {
     public int pegarId(Usuario usuario){
     	UsuarioDAO usuarioDAO = new UsuarioDAO();
         return usuarioDAO.pegarId(usuario);
+    }
+    
+    public boolean desativar(int idUsuario){
+    	UsuarioDAO usuarioDAO = new UsuarioDAO();
+        return usuarioDAO.desativar(idUsuario);
+    }
+    
+    public static Usuario logar(String email, String senha){
+        return UsuarioDAO.logar(email, senha);
     }
 }

@@ -17,8 +17,8 @@ public class UsuarioDAO {
             ps.setString(1, usuario.getNome());
             ps.setString(2, usuario.getEmail());
             ps.setString(3, usuario.getSenha());
-            ps.setString(4, usuario.getTipo());
-            ps.setString(5, usuario.getStatus());
+            ps.setString(4, usuario.getTipoString());
+            ps.setString(5, usuario.getStatusString());
             ps.executeUpdate();
             ps.close();
             conn.close();
@@ -28,14 +28,15 @@ public class UsuarioDAO {
             return false;
         }
     }
-    /*
-    public boolean alterar(Usuario marca) {
+    
+    public boolean alterar(Usuario usuario, int idUsuario) {
         try {
             Connection conn = Conexao.conectar();
-            String sql = "UPDATE " + NOMEDATABELA + " SET descricao = ? WHERE codigo = ?;";
+            String sql = "UPDATE " + NOMEDATABELA + " SET nome = ?, email = ?, senha = ? WHERE id = " + idUsuario + ";";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, marca.getDescricao());
-            ps.setInt(2, marca.getCodigo());
+            ps.setString(1, usuario.getNome());
+            ps.setString(2, usuario.getEmail());
+            ps.setString(3, usuario.getSenha());
             ps.executeUpdate();
             ps.close();
             conn.close();
@@ -46,12 +47,12 @@ public class UsuarioDAO {
         }
     }
     
-    public boolean excluir(Usuario marca) {
+    public boolean excluir(Usuario usuario) {
         try {
             Connection conn = Conexao.conectar();
-            String sql = "DELETE FROM " + NOMEDATABELA + " WHERE codigo = ?;";
+            String sql = "DELETE FROM " + NOMEDATABELA + " WHERE email = ?;";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, marca.getCodigo());
+            ps.setString(1, usuario.getEmail());
             ps.executeUpdate();
             ps.close();
             conn.close();
@@ -62,17 +63,19 @@ public class UsuarioDAO {
         }
     }
     
-    public Usuario procurarPorCodigo(Usuario marca) {
+    public Usuario procurarPorNome(Usuario usuario, String pesquisa) {
         try {
             Connection conn = Conexao.conectar();
-            String sql = "SELECT * FROM " + NOMEDATABELA + " WHERE codigo = ?;";
+            String sql = "SELECT * FROM " + NOMEDATABELA + " WHERE nome LIKE '%" + pesquisa + "%';";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, marca.getCodigo());
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                Marca obj = new Marca();
-                obj.setCodigo(rs.getInt(1));
-                obj.setDescricao(rs.getString(2));
+            	Usuario obj = new Usuario();
+                obj.setNome(rs.getString(2));
+                obj.setEmail(rs.getString(3));
+                obj.setSenha(rs.getString(4));
+                obj.setTipo(usuario.getTipoTipo());
+                obj.setStatus(usuario.getStatusStatus());
                 ps.close();
                 rs.close();
                 conn.close();
@@ -89,6 +92,35 @@ public class UsuarioDAO {
         }
     }
     
+    public Usuario procurarPorEmail(Usuario usuario, String pesquisa) {
+        try {
+            Connection conn = Conexao.conectar();
+            String sql = "SELECT * FROM " + NOMEDATABELA + " WHERE email LIKE '%" + pesquisa + "%';";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+            	Usuario obj = new Usuario();
+                obj.setNome(rs.getString(2));
+                obj.setEmail(rs.getString(3));
+                obj.setSenha(rs.getString(4));
+                obj.setTipo(usuario.getTipoTipo());
+                obj.setStatus(usuario.getStatusStatus());
+                ps.close();
+                rs.close();
+                conn.close();
+                return obj;
+            } else {
+                ps.close();
+                rs.close();
+                conn.close();
+                return null;
+            }
+        } catch (Exception e) {
+        	 e.printStackTrace();
+             return null;
+        }
+    }
+    /*
     public Usuario procurarPorDescricao(Usuario marca) {
         try {
             Connection conn = Conexao.conectar();
@@ -183,5 +215,40 @@ public class UsuarioDAO {
             return 0;
         }
         return 0;
+    }
+    
+    public boolean desativar(int idUsuario) {
+        try {
+            Connection conn = Conexao.conectar();
+            String sql = "UPDATE " + NOMEDATABELA + " SET status = 'DESATIVADO' WHERE id = " + idUsuario + ";";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.executeUpdate();
+            ps.close();
+            conn.close();
+            return true;
+        } catch (Exception e) {
+        	 e.printStackTrace();
+             return false;
+        }
+    }
+    
+    public static Usuario logar(String email, String senha) {
+        try {
+            Connection conn = Conexao.conectar();
+            String sql = "SELECT * FROM usuario WHERE email LIKE ? AND senha LIKE ?;";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, email);
+            ps.setString(2, senha);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+            	return new Usuario(rs.getString("nome"), rs.getString("email"), rs.getString("senha"), rs.getString("tipo"), rs.getString("status"));
+            }
+            ps.close();
+            rs.close();
+            conn.close();
+        } catch (Exception e) {
+           return null;
+        }
+        return null;
     }
 }

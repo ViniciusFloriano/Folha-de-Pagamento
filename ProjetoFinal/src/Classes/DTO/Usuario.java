@@ -7,6 +7,39 @@ public class Usuario {
     private StatusUsuario status;
 
     // Construtor
+    public Usuario() {
+    	
+    }
+    
+    public Usuario(String nome, String email, String senha, String tipo, String status) {
+    	this.nome = nome;
+    	this.email = email;
+    	this.senha = senha;
+    	if (tipo.equals("ADMINISTRADOR")) {
+    		this.tipo = TipoUsuario.ADMINISTRADOR;    		
+    	} else {
+    		this.tipo = TipoUsuario.FUNCIONARIO; 
+    	}
+    	if (status.equals("ATIVADO")) {
+    		this.status = StatusUsuario.ATIVADO;
+    	} else {
+    		this.status = StatusUsuario.DESATIVADO;
+    	}
+    }
+    
+    public Usuario(String nome, String email, TipoUsuario tipo, StatusUsuario status) {
+    	this.nome = nome;
+    	this.email = email;
+        this.tipo = tipo;
+        this.status = status;
+    }
+    
+    public Usuario(String email, TipoUsuario tipo, StatusUsuario status) {
+        this.email = email;
+        this.tipo = tipo;
+        this.status = status;
+    }
+    
     public Usuario(String nome, String email, String senha, TipoUsuario tipo, StatusUsuario status) {
         this.nome = nome;
         this.email = email;
@@ -40,20 +73,45 @@ public class Usuario {
     	this.senha = senha; 
     }
 
-    public String getTipo() { 
+    public String getTipoString() { 
     	return tipo.name();
+    }
+    
+    public TipoUsuario getTipoTipo() { 
+    	return tipo;
     }
     
     public void setTipo(TipoUsuario tipo) { 
     	this.tipo = tipo; 
     }
 
-    public String getStatus() { 
+    public String getStatusString() { 
     	return status.name(); 
+    }
+    
+    public StatusUsuario getStatusStatus() { 
+    	return status; 
     }
     
     public void setStatus(StatusUsuario status) { 
     	this.status = status; 
     }
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Usuario [nome=");
+		builder.append(nome);
+		builder.append(", email=");
+		builder.append(email);
+		builder.append(", senha=");
+		builder.append(senha);
+		builder.append(", tipo=");
+		builder.append(tipo);
+		builder.append(", status=");
+		builder.append(status);
+		builder.append("]");
+		return builder.toString();
+	}
+    
 }
