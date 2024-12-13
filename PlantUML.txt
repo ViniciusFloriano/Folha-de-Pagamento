@@ -24,27 +24,26 @@ enum TipoConta {
 
 ' Classe Usuario
 class Usuario {
-    - id : int
     - nome : String
     - email : String
     - senha : String
     - tipo : TipoUsuario
     - status : StatusUsuario
+    + mostrarTodosFuncionarios() : String
+    + mostrarTodos() : String
+    + toString() : String
 }
 
 ' Classe abstrata Funcionario
 abstract class Funcionario {
-    + {abstract} calcularPagamento() : double
+    + {abstract} calcularPagamento(int) : double
 }
 
 ' Classes especializadas de Funcionario
 class FuncionarioCLT {
     - cargo : String
     - salarioMensal : double
-    - beneficiosDescontos : List<BeneficioDesconto>
-    + adicionarBeneficio(String, double) : void
-    + adicionarDesconto(String, double) : void
-    + resetarBeneficiosDescontos() : void
+    + calcularPagamento(int) : double
 }
 
 class FuncionarioHorista {
@@ -54,6 +53,7 @@ class FuncionarioHorista {
     - valorHorasExtras : double
     + registrarHoras(double) : void
     + registrarHorasExtras(double) : void
+    + calcularPagamento(int) : double
 }
 
 class FuncionarioComissionado {
@@ -64,6 +64,7 @@ class FuncionarioComissionado {
     - bonus : double
     + registrarVendas(double) : void
     + registrarBonus(double) : void
+    + calcularPagamento(int) : double
 }
 
 ' Classe BeneficioDesconto
@@ -75,7 +76,6 @@ class BeneficioDesconto {
 
 ' Classe Banco
 class Banco {
-    - id : int
     - funcionario : Usuario
     - nomeBanco : String
     - agencia : String
@@ -85,7 +85,6 @@ class Banco {
 
 ' Classe FolhaDePagamento
 class FolhaDePagamento {
-    - id : int
     - funcionario : Usuario
     - dataGeracao : LocalDate
     - periodoInicio : LocalDate
