@@ -76,7 +76,7 @@ class BeneficioDesconto {
 ' Classe Banco
 class Banco {
     - id : int
-    - funcionario : Funcionario
+    - funcionario : Usuario
     - nomeBanco : String
     - agencia : String
     - numeroConta : String
@@ -86,7 +86,7 @@ class Banco {
 ' Classe FolhaDePagamento
 class FolhaDePagamento {
     - id : int
-    - funcionario : Funcionario
+    - funcionario : Usuario
     - dataGeracao : LocalDate
     - periodoInicio : LocalDate
     - periodoFim : LocalDate
