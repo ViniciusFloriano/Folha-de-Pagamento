@@ -97,6 +97,12 @@ public class Usuario {
     	this.status = status; 
     }
 
+	public String mostrarTodos() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(nome);
+		return builder.toString();
+	}
+    
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

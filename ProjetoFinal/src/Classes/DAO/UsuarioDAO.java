@@ -2,8 +2,11 @@ package Classes.DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-//import java.util.ArrayList;
-//import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
+
+import Classes.DTO.StatusUsuario;
+import Classes.DTO.TipoUsuario;
 import Classes.DTO.Usuario;
 import Classes.Conexao.Conexao;
 public class UsuarioDAO {
@@ -166,11 +169,11 @@ public class UsuarioDAO {
         }
         return false;
     }
-    /*
+    
     public List<Usuario> pesquisarTodos() {
         try {
             Connection conn = Conexao.conectar();
-            String sql = "SELECT * FROM " + NOMEDATABELA + ";";
+            String sql = "SELECT * FROM " + NOMEDATABELA + " WHERE tipo = 'FUNCIONARIO' AND status = 'ATIVADO';";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             List<Usuario> listObj = montarLista(rs);
@@ -185,9 +188,12 @@ public class UsuarioDAO {
         List<Usuario> listObj = new ArrayList<Usuario>();
         try {
             while (rs.next()) {
-                Marca obj = new Marca();
-                obj.setCodigo(rs.getInt(1));
-                obj.setDescricao(rs.getString(2));
+                Usuario obj = new Usuario();
+                obj.setNome(rs.getString(1));
+                obj.setEmail(rs.getString(2));
+                obj.setSenha(rs.getString(3));
+                obj.setTipo(TipoUsuario.FUNCIONARIO);
+                obj.setStatus(StatusUsuario.ATIVADO);
                 listObj.add(obj);
             }
             return listObj;
@@ -195,7 +201,7 @@ public class UsuarioDAO {
             e.printStackTrace();
             return null;
         }
-    }*/
+    }
     
     public int pegarId(Usuario usuario) {
         try {

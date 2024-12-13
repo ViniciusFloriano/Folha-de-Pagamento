@@ -1,7 +1,7 @@
 package Classes.BO;
 import Classes.DAO.UsuarioDAO;
 import Classes.DTO.Usuario;
-//import java.util.List;
+import java.util.List;
 public class UsuarioBO {
 
     public boolean inserir(Usuario usuario){
@@ -41,11 +41,11 @@ public class UsuarioBO {
     	UsuarioDAO usuarioDAO = new UsuarioDAO();
         return usuarioDAO.existe(usuario);
     }
-    /*
+    
     public List<Usuario> pesquisarTodos(){
     	UsuarioDAO usuarioDAO = new UsuarioDAO();
         return usuarioDAO.pesquisarTodos();
-    }*/
+    }
     
     public int pegarId(Usuario usuario){
     	UsuarioDAO usuarioDAO = new UsuarioDAO();

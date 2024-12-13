@@ -21,7 +21,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `folhapagamento`.`funcionario` (
   `id` INT NOT NULL,
-  `cargo` VARCHAR(255) NULL,
+  `cargo` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`),
    	FOREIGN KEY (`id`)
     REFERENCES `folhapagamento`.`usuario` (`id`)
@@ -120,3 +120,4 @@ CREATE TABLE IF NOT EXISTS `folhapagamento`.`folha_pagamento` (
 	  ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
+SET FOREIGN_KEY_CHECKS=0;

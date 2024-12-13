@@ -1,13 +1,13 @@
 package Classes.DTO;
 public class Banco {
-    private Funcionario funcionario;
+    private Usuario funcionario;
     private String nomeBanco;
     private String agencia;
     private String numeroConta;
     private TipoConta tipoConta; // Corrente ou Poupança
 
     // Construtor
-    public Banco(Funcionario funcionario, String nomeBanco, String agencia, String numeroConta, TipoConta tipoConta) {
+    public Banco(Usuario funcionario, String nomeBanco, String agencia, String numeroConta, TipoConta tipoConta) {
         this.funcionario = funcionario;
         this.nomeBanco = nomeBanco;
         this.agencia = agencia;
@@ -16,11 +16,11 @@ public class Banco {
     }
 
 	// Getters e Setters
-	public Funcionario getFuncionario() {
+	public Usuario getFuncionario() {
 		return funcionario;
 	}
 	
-	public void setFuncionario(Funcionario funcionario) {
+	public void setFuncionario(Usuario funcionario) {
 		this.funcionario = funcionario;
 	}
 
