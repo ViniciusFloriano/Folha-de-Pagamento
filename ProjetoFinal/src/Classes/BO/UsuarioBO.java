@@ -42,6 +42,11 @@ public class UsuarioBO {
         return usuarioDAO.existe(usuario);
     }
     
+    public List<Usuario> pesquisarTodosFuncionarios(){
+    	UsuarioDAO usuarioDAO = new UsuarioDAO();
+        return usuarioDAO.pesquisarTodosFuncionarios();
+    }
+    
     public List<Usuario> pesquisarTodos(){
     	UsuarioDAO usuarioDAO = new UsuarioDAO();
         return usuarioDAO.pesquisarTodos();
@@ -52,12 +57,30 @@ public class UsuarioBO {
         return usuarioDAO.pegarId(usuario);
     }
     
+    public boolean ativar(int idUsuario){
+    	UsuarioDAO usuarioDAO = new UsuarioDAO();
+        return usuarioDAO.ativar(idUsuario);
+    }
+    
     public boolean desativar(int idUsuario){
     	UsuarioDAO usuarioDAO = new UsuarioDAO();
         return usuarioDAO.desativar(idUsuario);
     }
     
+    public static Usuario logarSemSenha(String email){
+        return UsuarioDAO.logarSemSenha(email);
+    }
+    
     public static Usuario logar(String email, String senha){
         return UsuarioDAO.logar(email, senha);
+    }
+    
+    public boolean atualizaSenha(String senha, int idUsuario){
+    	UsuarioDAO usuarioDAO = new UsuarioDAO();
+        return usuarioDAO.atualizarSenha(senha, idUsuario);
+    }
+    
+    public static boolean verificaSenha(String email){
+        return UsuarioDAO.verificaSenha(email);
     }
 }

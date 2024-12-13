@@ -1,5 +1,6 @@
 package Classes.BO;
 import Classes.DAO.BeneficioDescontoDAO;
+import java.util.List;
 import Classes.DTO.BeneficioDesconto;
 public class BeneficioDescontoBO {
 
@@ -37,4 +38,9 @@ public class BeneficioDescontoBO {
     	UsuarioDAO usuarioDAO = new UsuarioDAO();
         return usuarioDAO.pesquisarTodos();
     }*/
+	
+	public List<BeneficioDesconto> buscarDescontosPorFuncionario(int idFuncionario){
+    	BeneficioDescontoDAO beneficioDescontoDAO = new BeneficioDescontoDAO();
+        return beneficioDescontoDAO.buscarDescontosPorFuncionario(idFuncionario);
+    }
 }

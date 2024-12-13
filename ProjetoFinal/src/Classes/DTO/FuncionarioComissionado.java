@@ -47,7 +47,7 @@ public class FuncionarioComissionado extends Funcionario {
     }
 
     @Override
-    public double calcularPagamento() {
+    public double calcularPagamento(int idFuncionario) {
         return salarioBase + (vendasRealizadas * comissao / 100) + bonus;
     }
 }

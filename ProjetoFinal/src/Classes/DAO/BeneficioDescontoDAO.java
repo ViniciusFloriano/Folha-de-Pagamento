@@ -1,9 +1,12 @@
 package Classes.DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-//import java.sql.ResultSet;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import Classes.Conexao.Conexao;
 import Classes.DTO.BeneficioDesconto;
+import Classes.DTO.TipoBenDes;
 public class BeneficioDescontoDAO {
 	final String NOMEDATABELA = "beneficio_desconto";
 
@@ -159,4 +162,30 @@ public class BeneficioDescontoDAO {
 			return null;
 		}
 	}*/
+	
+	public List<BeneficioDesconto> buscarDescontosPorFuncionario(int idFuncionario) {
+        List<BeneficioDesconto> descontos = new ArrayList<>();
+        try {
+            Connection conn = Conexao.conectar();
+            String sql = "SELECT * FROM " + NOMEDATABELA + " WHERE funcionario_id = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, idFuncionario);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                BeneficioDesconto desconto = new BeneficioDesconto();
+                desconto.setDescricao(rs.getString("descricao"));
+                desconto.setValor(rs.getDouble("valor"));
+                desconto.setTipo(TipoBenDes.DESCONTO);
+                descontos.add(desconto);
+            }
+
+            rs.close();
+            ps.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return descontos;
+    }
 }

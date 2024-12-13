@@ -1,16 +1,20 @@
 package Classes.DTO;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.List;
+import Classes.BO.BeneficioDescontoBO;
 public class FuncionarioCLT extends Funcionario {
 	private String cargo;
     private double salarioMensal;
-    private List<BeneficioDesconto> beneficiosDescontos;
 
+    public FuncionarioCLT(String nome, String email, String senha, TipoUsuario tipo, StatusUsuario status) {
+        super(nome, email, senha, TipoUsuario.FUNCIONARIO, StatusUsuario.ATIVADO);
+    }
+
+    
     public FuncionarioCLT(String nome, String email, String senha, TipoUsuario tipo, StatusUsuario status, String cargo, double salarioMensal) {
         super(nome, email, senha, TipoUsuario.FUNCIONARIO, StatusUsuario.ATIVADO);
         this.cargo = cargo;
         this.salarioMensal = salarioMensal;
-        this.beneficiosDescontos = new ArrayList<>();
     }
 
     // Getters e Setters
@@ -30,30 +34,17 @@ public class FuncionarioCLT extends Funcionario {
 		this.salarioMensal = salarioMensal;
 	}
 
-	public void adicionarBeneficio(String descricao, double valor) {
-        this.beneficiosDescontos.add(new BeneficioDesconto(descricao, valor, TipoBenDes.BENEFICIO));
-    }
-
-    public void adicionarDesconto(String descricao, double valor) {
-        this.beneficiosDescontos.add(new BeneficioDesconto(descricao, valor, TipoBenDes.DESCONTO));
-    }
-
-    public void resetarBeneficiosDescontos() {
-        this.beneficiosDescontos.clear();
-    }
-
     @Override
-    public double calcularPagamento() {
-        double totalBeneficios = beneficiosDescontos.stream()
-                .filter(bd -> bd.getTipo().equals("BENEFICIO"))
-                .mapToDouble(BeneficioDesconto::getValor)
-                .sum();
+    public double calcularPagamento(int idFuncionario) {
+        BeneficioDescontoBO beneficioDescontoBO = new BeneficioDescontoBO();
+        List<BeneficioDesconto> descontos = beneficioDescontoBO.buscarDescontosPorFuncionario(idFuncionario);
 
-        double totalDescontos = beneficiosDescontos.stream()
-                .filter(bd -> bd.getTipo().equals("DESCONTO"))
-                .mapToDouble(BeneficioDesconto::getValor)
-                .sum();
+        double totalDescontos = 0.0;
+        for (BeneficioDesconto desconto : descontos) {
+            totalDescontos += desconto.getValor();
+        }
 
-        return (salarioMensal + totalBeneficios) - totalDescontos;
+        // Salário final = Salário mensal - total de descontos
+        return this.salarioMensal - totalDescontos;
     }
 }

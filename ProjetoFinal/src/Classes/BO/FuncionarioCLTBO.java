@@ -1,7 +1,7 @@
 package Classes.BO;
 import Classes.DAO.FuncionarioCLTDAO;
 import Classes.DTO.FuncionarioCLT;
-//import java.util.List;
+import java.util.List;
 public class FuncionarioCLTBO {
 
     public boolean inserir(FuncionarioCLT funcionarioclt, int idUsuario){
@@ -36,14 +36,24 @@ public class FuncionarioCLTBO {
     	FuncionarioCLTDAO funcionariocltDAO = new FuncionarioCLTDAO();
         return funcionariocltDAO.existe(funcionarioclt, idUsuario);
     }
-    /*
-    public List<Usuario> pesquisarTodos(){
-    	UsuarioDAO usuarioDAO = new UsuarioDAO();
-        return usuarioDAO.pesquisarTodos();
-    }*/
+    
+    public List<FuncionarioCLT> pesquisarTodos(int idFuncionario){
+    	FuncionarioCLTDAO funcionarioCLTDAO = new FuncionarioCLTDAO();
+        return funcionarioCLTDAO.pesquisarTodos(idFuncionario);
+    }
     
     public int pegarId(int id){
     	FuncionarioCLTDAO funcionariocltDAO = new FuncionarioCLTDAO();
         return funcionariocltDAO.pegarId(id);
+    }
+    
+    public int pegarSalario(int id){
+    	FuncionarioCLTDAO funcionariocltDAO = new FuncionarioCLTDAO();
+        return funcionariocltDAO.pegarSalario(id);
+    }
+    
+    public boolean atualizarSalario(double salario, int idFuncionario){
+    	FuncionarioCLTDAO funcionariocltDAO = new FuncionarioCLTDAO();
+        return funcionariocltDAO.atualizarSalario(salario, idFuncionario);
     }
 }

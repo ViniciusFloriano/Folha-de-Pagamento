@@ -4,6 +4,9 @@ public class BeneficioDesconto {
     private double valor;
     private TipoBenDes tipo;
 
+    public BeneficioDesconto() {
+    }
+    
     public BeneficioDesconto(String descricao, double valor, TipoBenDes tipo) {
         this.descricao = descricao;
         this.valor = valor;

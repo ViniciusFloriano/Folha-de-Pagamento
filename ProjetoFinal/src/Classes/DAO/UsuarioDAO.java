@@ -173,6 +173,20 @@ public class UsuarioDAO {
     public List<Usuario> pesquisarTodos() {
         try {
             Connection conn = Conexao.conectar();
+            String sql = "SELECT * FROM " + NOMEDATABELA + ";";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            List<Usuario> listObj = montarLista(rs);
+            return listObj;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public List<Usuario> pesquisarTodosFuncionarios() {
+        try {
+            Connection conn = Conexao.conectar();
             String sql = "SELECT * FROM " + NOMEDATABELA + " WHERE tipo = 'FUNCIONARIO' AND status = 'ATIVADO';";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -189,11 +203,19 @@ public class UsuarioDAO {
         try {
             while (rs.next()) {
                 Usuario obj = new Usuario();
-                obj.setNome(rs.getString(1));
-                obj.setEmail(rs.getString(2));
-                obj.setSenha(rs.getString(3));
-                obj.setTipo(TipoUsuario.FUNCIONARIO);
-                obj.setStatus(StatusUsuario.ATIVADO);
+                obj.setNome(rs.getString(2));
+                obj.setEmail(rs.getString(3));
+                obj.setSenha(rs.getString(4));
+                if ("ADMINISTRADOR".equals(rs.getString(5))) {
+                	obj.setTipo(TipoUsuario.ADMINISTRADOR);
+                } else if ("FUNCIONARIO".equals(rs.getString(5))) {
+                	obj.setTipo(TipoUsuario.FUNCIONARIO);
+                }
+                if ("ATIVADO".equals(rs.getString(6))) {
+                	obj.setStatus(StatusUsuario.ATIVADO);
+                } else if ("DESATIVADO".equals(rs.getString(6))) {
+                	obj.setStatus(StatusUsuario.DESATIVADO);
+                }
                 listObj.add(obj);
             }
             return listObj;
@@ -238,10 +260,44 @@ public class UsuarioDAO {
         }
     }
     
+    public boolean ativar(int idUsuario) {
+        try {
+            Connection conn = Conexao.conectar();
+            String sql = "UPDATE " + NOMEDATABELA + " SET status = 'ATIVADO' WHERE id = " + idUsuario + ";";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.executeUpdate();
+            ps.close();
+            conn.close();
+            return true;
+        } catch (Exception e) {
+        	 e.printStackTrace();
+             return false;
+        }
+    }
+    
+    public static Usuario logarSemSenha(String email) {
+        try {
+            Connection conn = Conexao.conectar();
+            String sql = "SELECT * FROM usuario WHERE email LIKE ? AND senha LIKE '' AND status like 'ATIVADO';";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+            	return new Usuario(rs.getString("nome"), rs.getString("email"), "", rs.getString("tipo"), rs.getString("status"));
+            }
+            ps.close();
+            rs.close();
+            conn.close();
+        } catch (Exception e) {
+           return null;
+        }
+        return null;
+    }
+    
     public static Usuario logar(String email, String senha) {
         try {
             Connection conn = Conexao.conectar();
-            String sql = "SELECT * FROM usuario WHERE email LIKE ? AND senha LIKE ?;";
+            String sql = "SELECT * FROM usuario WHERE email LIKE ? AND senha LIKE ? AND status like 'ATIVADO';";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, email);
             ps.setString(2, senha);
@@ -256,5 +312,40 @@ public class UsuarioDAO {
            return null;
         }
         return null;
+    }
+    
+    public static boolean verificaSenha(String email) {
+        try {
+            Connection conn = Conexao.conectar();
+            String sql = "SELECT * FROM usuario WHERE email LIKE ? AND isnull(senha) AND status like 'ATIVADO';";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+            	return true;
+            }
+            ps.close();
+            rs.close();
+            conn.close();
+        } catch (Exception e) {
+           return false;
+        }
+        return false;
+    }
+    
+    public boolean atualizarSenha(String senha, int idUsuario) {
+        try {
+            Connection conn = Conexao.conectar();
+            String sql = "UPDATE " + NOMEDATABELA + " SET senha = ? WHERE id = " + idUsuario + ";";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, senha);
+            ps.executeUpdate();
+            ps.close();
+            conn.close();
+            return true;
+        } catch (Exception e) {
+        	 e.printStackTrace();
+             return false;
+        }
     }
 }

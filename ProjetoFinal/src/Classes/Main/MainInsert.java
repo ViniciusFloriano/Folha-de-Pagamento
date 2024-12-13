@@ -49,7 +49,7 @@ public class MainInsert {
 		
 		//Beneficios e Descontos
 		BeneficioDescontoBO beneficioDescontoBO = new BeneficioDescontoBO();
-		
+		/*
 		//Beneficios CLT
 		BeneficioDesconto beneficioDesconto1 = new BeneficioDesconto("Vale Transporte", 800, TipoBenDes.BENEFICIO);
 		funcionarioclt.adicionarBeneficio("Vale Transporte", 800);
@@ -126,6 +126,6 @@ public class MainInsert {
 			System.out.println("Inserido com Sucesso");
 		} else {
 			System.out.println("Erro ao Inserir");			
-		}
+		}*/
 	}
 }

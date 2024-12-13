@@ -97,9 +97,19 @@ public class Usuario {
     	this.status = status; 
     }
 
+	public String mostrarTodosFuncionarios() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Nome: ");
+		builder.append(nome);
+		return builder.toString();
+	}
+	
 	public String mostrarTodos() {
 		StringBuilder builder = new StringBuilder();
+		builder.append("Nome: ");
 		builder.append(nome);
+		builder.append(" Status: ");
+		builder.append(status);
 		return builder.toString();
 	}
     

@@ -6,6 +6,6 @@ public abstract class Funcionario extends Usuario {
         super(nome, email, senha, TipoUsuario.FUNCIONARIO, StatusUsuario.ATIVADO);
     }
 
-    public abstract double calcularPagamento();
+    public abstract double calcularPagamento(int idFuncionario);
 
 }
