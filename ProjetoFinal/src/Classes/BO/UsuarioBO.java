@@ -31,12 +31,7 @@ public class UsuarioBO {
     	UsuarioDAO usuarioDAO = new UsuarioDAO();
         return usuarioDAO.procurarPorEmail(usuario, pesquisa);
     }
-    /*
-    public Usuario procurarPorDescricao(Usuario usuario){
-    	UsuarioDAO usuarioDAO = new UsuarioDAO();
-        return usuarioDAO.procurarPorDescricao(usuario);
-    }
-    */
+    
     public boolean existe(Usuario usuario){
     	UsuarioDAO usuarioDAO = new UsuarioDAO();
         return usuarioDAO.existe(usuario);
@@ -82,5 +77,10 @@ public class UsuarioBO {
     
     public static boolean verificaSenha(String email){
         return UsuarioDAO.verificaSenha(email);
+    }
+
+    public int verificaFuncTipo(int idUsuario){
+    	UsuarioDAO usuarioDAO = new UsuarioDAO();
+        return usuarioDAO.verificaFuncTipo(idUsuario);
     }
 }

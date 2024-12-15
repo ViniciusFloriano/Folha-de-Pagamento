@@ -1,27 +1,27 @@
 package Classes.BO;
+import java.util.List;
 import Classes.DAO.FuncionarioComissionadoDAO;
 import Classes.DTO.FuncionarioComissionado;
-//import java.util.List;
 public class FuncionarioComissionadoBO {
 
-    public boolean inserir(FuncionarioComissionado funcionarioComissionado, int idUsuario){
-        if (existe(funcionarioComissionado, idUsuario) != true) {
+    public boolean inserir(FuncionarioComissionado funcionarioComissionado, int idFuncionario){
+        if (existe(funcionarioComissionado, idFuncionario) != true) {
         	FuncionarioComissionadoDAO funcionarioComissionadoDAO = new FuncionarioComissionadoDAO();
-            return funcionarioComissionadoDAO.inserir(funcionarioComissionado, idUsuario);
+            return funcionarioComissionadoDAO.inserir(funcionarioComissionado, idFuncionario);
         }
         return false;
     }
+    
+    public boolean alterarSalarioBase(double salario, int idFuncionario){
+    	FuncionarioComissionadoDAO funcionarioComissionadoDAO = new FuncionarioComissionadoDAO();
+        return funcionarioComissionadoDAO.alterarSalarioBase(salario, idFuncionario);
+    }
+    
+    public boolean excluir(int idFuncionario){
+    	FuncionarioComissionadoDAO funcionarioComissionadoDAO = new FuncionarioComissionadoDAO();
+        return funcionarioComissionadoDAO.excluir(idFuncionario);
+    }
     /*
-    public boolean alterar(Usuario usuario){
-    	UsuarioDAO usuarioDAO = new UsuarioDAO();
-        return usuarioDAO.alterar(usuario);
-    }
-    
-    public boolean excluir(Usuario usuario){
-    	UsuarioDAO usuarioDAO = new UsuarioDAO();
-        return usuarioDAO.excluir(usuario);
-    }
-    
     public Usuario procurarPorCodigo(Usuario usuario){
     	UsuarioDAO usuarioDAO = new UsuarioDAO();
         return usuarioDAO.procurarPorCodigo(usuario);
@@ -32,18 +32,38 @@ public class FuncionarioComissionadoBO {
         return usuarioDAO.procurarPorDescricao(usuario);
     }
     */
-    public boolean existe(FuncionarioComissionado funcionarioComissionado, int idUsuario){
+    public boolean existe(FuncionarioComissionado funcionarioComissionado, int idFuncionario){
     	FuncionarioComissionadoDAO funcionarioComissionadoDAO = new FuncionarioComissionadoDAO();
-        return funcionarioComissionadoDAO.existe(funcionarioComissionado, idUsuario);
+        return funcionarioComissionadoDAO.existe(funcionarioComissionado, idFuncionario);
     }
-    /*
-    public List<Usuario> pesquisarTodos(){
-    	UsuarioDAO usuarioDAO = new UsuarioDAO();
-        return usuarioDAO.pesquisarTodos();
-    }*/
+    
+    public List<FuncionarioComissionado> pesquisarTodos(int idFuncionario){
+    	FuncionarioComissionadoDAO funcionarioComissionadoDAO = new FuncionarioComissionadoDAO();
+        return funcionarioComissionadoDAO.pesquisarTodos(idFuncionario);
+    }
     
     public int pegarId(int id){
     	FuncionarioComissionadoDAO funcionarioComissionadoDAO = new FuncionarioComissionadoDAO();
         return funcionarioComissionadoDAO.pegarId(id);
+    }
+    
+    public double pegarSalarioBase(int id){
+    	FuncionarioComissionadoDAO funcionarioComissionadoDAO = new FuncionarioComissionadoDAO();
+        return funcionarioComissionadoDAO.pegarSalarioBase(id);
+    }
+    
+    public double pegarComissao(int id){
+    	FuncionarioComissionadoDAO funcionarioComissionadoDAO = new FuncionarioComissionadoDAO();
+        return funcionarioComissionadoDAO.pegarComissao(id);
+    }
+    
+    public double pegarVendas(int id){
+    	FuncionarioComissionadoDAO funcionarioComissionadoDAO = new FuncionarioComissionadoDAO();
+        return funcionarioComissionadoDAO.pegarVendas(id);
+    }
+    
+    public double pegarBonus(int id){
+    	FuncionarioComissionadoDAO funcionarioComissionadoDAO = new FuncionarioComissionadoDAO();
+        return funcionarioComissionadoDAO.pegarBonus(id);
     }
 }

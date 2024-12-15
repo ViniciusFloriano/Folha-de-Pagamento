@@ -2,8 +2,12 @@ package Classes.DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import Classes.Conexao.Conexao;
 import Classes.DTO.FuncionarioComissionado;
+import Classes.DTO.StatusUsuario;
+import Classes.DTO.TipoUsuario;
 public class FuncionarioComissionadoDAO {
 final String NOMEDATABELA = "funcionario_comissionado";
     
@@ -15,10 +19,12 @@ final String NOMEDATABELA = "funcionario_comissionado";
             ps1.setString(1, funcionarioComissionado.getCargo());
             ps1.executeUpdate();
             ps1.close();
-            String sql2 = "INSERT INTO " + NOMEDATABELA + " (id, salario_base, comissao_percentual) VALUES (" + idUsuario + ", ?, ?);";
+            String sql2 = "INSERT INTO " + NOMEDATABELA + " (id, salario_base, comissao_percentual, vendas_realizadas, bonus) VALUES (" + idUsuario + ", ?, ?, ?, ?);";
             PreparedStatement ps2 = conn.prepareStatement(sql2);
             ps2.setDouble(1, funcionarioComissionado.getSalarioBase());
             ps2.setDouble(2, funcionarioComissionado.getComissao());
+            ps2.setDouble(3, funcionarioComissionado.getVendasRealizadas());
+            ps2.setDouble(4, funcionarioComissionado.getBonus());
             ps2.executeUpdate();
             ps2.close();
             conn.close();
@@ -28,14 +34,13 @@ final String NOMEDATABELA = "funcionario_comissionado";
             return false;
         }
     }
-    /*
-    public boolean alterar(Usuario marca) {
+    
+    public boolean alterarSalarioBase(double salario, int idFuncionario) {
         try {
             Connection conn = Conexao.conectar();
-            String sql = "UPDATE " + NOMEDATABELA + " SET descricao = ? WHERE codigo = ?;";
+            String sql = "UPDATE " + NOMEDATABELA + " SET salario_base = ? WHERE codigo = " + idFuncionario + ";";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, marca.getDescricao());
-            ps.setInt(2, marca.getCodigo());
+            ps.setDouble(1, salario);
             ps.executeUpdate();
             ps.close();
             conn.close();
@@ -46,12 +51,12 @@ final String NOMEDATABELA = "funcionario_comissionado";
         }
     }
     
-    public boolean excluir(Usuario marca) {
+    public boolean excluir(int idFuncionario) {
         try {
             Connection conn = Conexao.conectar();
             String sql = "DELETE FROM " + NOMEDATABELA + " WHERE codigo = ?;";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, marca.getCodigo());
+            ps.setInt(1, idFuncionario);
             ps.executeUpdate();
             ps.close();
             conn.close();
@@ -61,7 +66,7 @@ final String NOMEDATABELA = "funcionario_comissionado";
              return false;
         }
     }
-    
+    /*
     public Usuario procurarPorCodigo(Usuario marca) {
         try {
             Connection conn = Conexao.conectar();
@@ -133,14 +138,14 @@ final String NOMEDATABELA = "funcionario_comissionado";
         }
         return false;
     }
-    /*
-    public List<Usuario> pesquisarTodos() {
+    
+    public List<FuncionarioComissionado> pesquisarTodos(int idFuncionario) {
         try {
             Connection conn = Conexao.conectar();
-            String sql = "SELECT * FROM " + NOMEDATABELA + ";";
+            String sql = "SELECT nome, email, senha, cargo, salario_base, comissao_percentual, vendas_realizadas, bonus FROM usuario, funcionario, " + NOMEDATABELA + " WHERE funcionario_comissionado.id = " + idFuncionario + " AND usuario.id = funcionario_comissionado.id AND usuario.id = funcionario.id;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            List<Usuario> listObj = montarLista(rs);
+            List<FuncionarioComissionado> listObj = montarLista(rs);
             return listObj;
         } catch (Exception e) {
             e.printStackTrace();
@@ -148,13 +153,21 @@ final String NOMEDATABELA = "funcionario_comissionado";
         }
     }
     
-    public List<Usuario> montarLista(ResultSet rs) {
-        List<Usuario> listObj = new ArrayList<Usuario>();
+    public List<FuncionarioComissionado> montarLista(ResultSet rs) {
+        List<FuncionarioComissionado> listObj = new ArrayList<FuncionarioComissionado>();
         try {
             while (rs.next()) {
-                Marca obj = new Marca();
-                obj.setCodigo(rs.getInt(1));
-                obj.setDescricao(rs.getString(2));
+                FuncionarioComissionado obj = new FuncionarioComissionado(rs.getString(1), rs.getString(2), rs.getString(3), TipoUsuario.FUNCIONARIO, StatusUsuario.ATIVADO);
+                obj.setNome(rs.getString(1));
+                obj.setEmail(rs.getString(2));
+                obj.setSenha(rs.getString(3));
+                obj.setTipo(TipoUsuario.FUNCIONARIO);
+                obj.setStatus(StatusUsuario.ATIVADO);
+                obj.setCargo(rs.getString(4));
+                obj.setSalarioBase(rs.getDouble(5));
+                obj.setComissao(rs.getDouble(6));
+                obj.setVendasRealizadas(rs.getDouble(7));
+                obj.setBonus(rs.getDouble(8));
                 listObj.add(obj);
             }
             return listObj;
@@ -162,7 +175,7 @@ final String NOMEDATABELA = "funcionario_comissionado";
             e.printStackTrace();
             return null;
         }
-    }*/	
+    }
     
     public int pegarId(int id) {
         try {
@@ -182,4 +195,80 @@ final String NOMEDATABELA = "funcionario_comissionado";
         }
         return 0;
     }
+    
+    public double pegarSalarioBase(int id) {
+	    try {
+	        Connection conn = Conexao.conectar();
+	        String sql = "SELECT salario_base FROM " + NOMEDATABELA + " WHERE id = " + id + ";";
+	        PreparedStatement ps = conn.prepareStatement(sql);
+	        ResultSet rs = ps.executeQuery();
+	        if (rs.next()) {
+	            return rs.getDouble(1);
+	        }
+	        ps.close();
+	        rs.close();
+	        conn.close();
+	    } catch (Exception e) {
+	       e.printStackTrace();
+	        return 0;
+	    }
+	    return 0;
+	}
+    
+    public double pegarComissao(int id) {
+	    try {
+	        Connection conn = Conexao.conectar();
+	        String sql = "SELECT comissao_percentual FROM " + NOMEDATABELA + " WHERE id = " + id + ";";
+	        PreparedStatement ps = conn.prepareStatement(sql);
+	        ResultSet rs = ps.executeQuery();
+	        if (rs.next()) {
+	            return rs.getDouble(1);
+	        }
+	        ps.close();
+	        rs.close();
+	        conn.close();
+	    } catch (Exception e) {
+	       e.printStackTrace();
+	        return 0;
+	    }
+	    return 0;
+	}
+    
+    public double pegarVendas(int id) {
+	    try {
+	        Connection conn = Conexao.conectar();
+	        String sql = "SELECT vendas_realizadas FROM " + NOMEDATABELA + " WHERE id = " + id + ";";
+	        PreparedStatement ps = conn.prepareStatement(sql);
+	        ResultSet rs = ps.executeQuery();
+	        if (rs.next()) {
+	            return rs.getDouble(1);
+	        }
+	        ps.close();
+	        rs.close();
+	        conn.close();
+	    } catch (Exception e) {
+	       e.printStackTrace();
+	        return 0;
+	    }
+	    return 0;
+	}
+    
+    public double pegarBonus(int id) {
+	    try {
+	        Connection conn = Conexao.conectar();
+	        String sql = "SELECT bonus FROM " + NOMEDATABELA + " WHERE id = " + id + ";";
+	        PreparedStatement ps = conn.prepareStatement(sql);
+	        ResultSet rs = ps.executeQuery();
+	        if (rs.next()) {
+	            return rs.getDouble(1);
+	        }
+	        ps.close();
+	        rs.close();
+	        conn.close();
+	    } catch (Exception e) {
+	       e.printStackTrace();
+	        return 0;
+	    }
+	    return 0;
+	}
 }

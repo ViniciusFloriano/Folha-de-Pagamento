@@ -11,27 +11,27 @@ public class FuncionarioCLTBO {
         }
         return false;
     }
-    /*
-    public boolean alterar(Usuario usuario){
-    	UsuarioDAO usuarioDAO = new UsuarioDAO();
-        return usuarioDAO.alterar(usuario);
+    
+    public boolean alterarSalario(double salario, int idFuncionario){
+    	FuncionarioCLTDAO funcionariocltDAO = new FuncionarioCLTDAO();
+        return funcionariocltDAO.alterarSalario(salario, idFuncionario);
     }
     
-    public boolean excluir(Usuario usuario){
-    	UsuarioDAO usuarioDAO = new UsuarioDAO();
-        return usuarioDAO.excluir(usuario);
+    public boolean excluir(int idFuncionario){
+    	FuncionarioCLTDAO funcionariocltDAO = new FuncionarioCLTDAO();
+        return funcionariocltDAO.excluir(idFuncionario);
     }
     
-    public Usuario procurarPorCodigo(Usuario usuario){
-    	UsuarioDAO usuarioDAO = new UsuarioDAO();
-        return usuarioDAO.procurarPorCodigo(usuario);
+    public FuncionarioCLT procurarPorId(int idFuncionario){
+    	FuncionarioCLTDAO funcionariocltDAO = new FuncionarioCLTDAO();
+        return funcionariocltDAO.procurarPorId(idFuncionario);
     }
     
-    public Usuario procurarPorDescricao(Usuario usuario){
-    	UsuarioDAO usuarioDAO = new UsuarioDAO();
-        return usuarioDAO.procurarPorDescricao(usuario);
+    public FuncionarioCLT procurarPorDescricao(int idFuncionario){
+    	FuncionarioCLTDAO funcionariocltDAO = new FuncionarioCLTDAO();
+        return funcionariocltDAO.procurarPorDescricao(idFuncionario);
     }
-    */
+    
     public boolean existe(FuncionarioCLT funcionarioclt, int idUsuario){
     	FuncionarioCLTDAO funcionariocltDAO = new FuncionarioCLTDAO();
         return funcionariocltDAO.existe(funcionarioclt, idUsuario);
@@ -47,13 +47,8 @@ public class FuncionarioCLTBO {
         return funcionariocltDAO.pegarId(id);
     }
     
-    public int pegarSalario(int id){
+    public double pegarSalario(int id){
     	FuncionarioCLTDAO funcionariocltDAO = new FuncionarioCLTDAO();
         return funcionariocltDAO.pegarSalario(id);
-    }
-    
-    public boolean atualizarSalario(double salario, int idFuncionario){
-    	FuncionarioCLTDAO funcionariocltDAO = new FuncionarioCLTDAO();
-        return funcionariocltDAO.atualizarSalario(salario, idFuncionario);
     }
 }

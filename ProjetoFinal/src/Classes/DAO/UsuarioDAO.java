@@ -123,33 +123,7 @@ public class UsuarioDAO {
              return null;
         }
     }
-    /*
-    public Usuario procurarPorDescricao(Usuario marca) {
-        try {
-            Connection conn = Conexao.conectar();
-            String sql = "SELECT * FROM " + NOMEDATABELA + " WHERE descricao = ?;";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, marca.getDescricao());
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-            	Usuario obj = new Usuario();
-                obj.setCodigo(rs.getInt(1));
-                obj.setDescricao(rs.getString(2));
-                ps.close();
-                rs.close();
-                conn.close();
-                return obj;
-            } else {
-                ps.close();
-                rs.close();
-                conn.close();
-                return null;
-            }
-        } catch (Exception e) {
-            return null;
-        }
-    }
-    */
+    
     public boolean existe(Usuario usuario) {
         try {
             Connection conn = Conexao.conectar();
@@ -347,5 +321,41 @@ public class UsuarioDAO {
         	 e.printStackTrace();
              return false;
         }
+    }
+    
+    public int verificaFuncTipo(int idUsuario) {
+    	int tipo = 0;
+        try {
+            Connection conn = Conexao.conectar();
+            String sql = "SELECT * FROM " + NOMEDATABELA + ", funcionario, funcionario_clt WHERE usuario.id = ? AND usuario.id = funcionario.id AND funcionario.id = funcionario_clt.id;";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, idUsuario);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+            	tipo = 1;
+            } else {
+            	sql = "SELECT * FROM " + NOMEDATABELA + ", funcionario, funcionario_horista WHERE usuario.id = ? AND usuario.id = funcionario.id AND funcionario.id = funcionario_horista.id;";
+            	ps = conn.prepareStatement(sql);
+            	ps.setInt(1, idUsuario);
+                rs = ps.executeQuery();
+                if (rs.next()) {
+                	tipo = 2;
+                } else {
+                	sql = "SELECT * FROM " + NOMEDATABELA + ", funcionario, funcionario_comissionado WHERE usuario.id = ? AND usuario.id = funcionario.id AND funcionario.id = funcionario_comissionado.id;";
+                	ps = conn.prepareStatement(sql);
+                	ps.setInt(1, idUsuario);
+                    rs = ps.executeQuery();
+                    if (rs.next()) {
+                    	tipo = 3;
+                    }
+                }
+            }
+            ps.close();
+            rs.close();
+            conn.close();
+        } catch (Exception e) {
+           tipo = 0;
+        }
+        return tipo;
     }
 }

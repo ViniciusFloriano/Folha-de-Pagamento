@@ -24,7 +24,7 @@ public class MainInsert {
 		int idUsuario2 = usuarioBO.pegarId(usuario2);
 		int idUsuario3 = usuarioBO.pegarId(usuario3);
 		
-		
+		/*
 		//Funcionarios
 		FuncionarioCLTBO funcionariocltBO = new FuncionarioCLTBO();
 		FuncionarioCLT funcionarioclt = new FuncionarioCLT(usuario1.getNome(), usuario1.getEmail(), usuario1.getSenha(), TipoUsuario.FUNCIONARIO, StatusUsuario.ATIVADO, "Analista de TI", 2000.00);
@@ -49,7 +49,7 @@ public class MainInsert {
 		
 		//Beneficios e Descontos
 		BeneficioDescontoBO beneficioDescontoBO = new BeneficioDescontoBO();
-		/*
+		
 		//Beneficios CLT
 		BeneficioDesconto beneficioDesconto1 = new BeneficioDesconto("Vale Transporte", 800, TipoBenDes.BENEFICIO);
 		funcionarioclt.adicionarBeneficio("Vale Transporte", 800);

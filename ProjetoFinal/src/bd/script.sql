@@ -48,6 +48,8 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `folhapagamento`.`funcionario_horista` (
     `id` INT NOT NULL,
     `salario_hora` DECIMAL(10,2) NOT NULL,
+    `horas_trabalhadas` DECIMAL(10,2) NOT NULL,
+    `horas_extras` DECIMAL(10,2) NOT NULL,
     PRIMARY KEY (`id`),
 	  FOREIGN KEY (`id`)
 	  REFERENCES `folhapagamento`.`funcionario` (`id`)
@@ -62,6 +64,8 @@ CREATE TABLE IF NOT EXISTS `folhapagamento`.`funcionario_comissionado` (
     `id` INT NOT NULL,
     `salario_base` DECIMAL(10,2) NOT NULL,
     `comissao_percentual` DECIMAL(5, 2) NOT NULL,
+    `vendas_realizadas` DECIMAL(10,2) NOT NULL,
+    `bonus` DECIMAL(10, 2) NOT NULL,
     PRIMARY KEY (`id`),
 	  FOREIGN KEY (`id`)
 	  REFERENCES `folhapagamento`.`funcionario` (`id`)

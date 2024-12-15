@@ -31,14 +31,13 @@ public class FuncionarioCLTDAO{
             return false;
         }
     }
-    /*
-    public boolean alterar(Usuario marca) {
+    
+    public boolean alterarSalario(Double salario, int idFuncionario) {
         try {
             Connection conn = Conexao.conectar();
-            String sql = "UPDATE " + NOMEDATABELA + " SET descricao = ? WHERE codigo = ?;";
+            String sql = "UPDATE " + NOMEDATABELA + " SET salario_mensal = ? WHERE id = " + idFuncionario + ";";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, marca.getDescricao());
-            ps.setInt(2, marca.getCodigo());
+            ps.setDouble(1, salario);
             ps.executeUpdate();
             ps.close();
             conn.close();
@@ -49,12 +48,12 @@ public class FuncionarioCLTDAO{
         }
     }
     
-    public boolean excluir(Usuario marca) {
+    public boolean excluir(int idFuncionario) {
         try {
             Connection conn = Conexao.conectar();
-            String sql = "DELETE FROM " + NOMEDATABELA + " WHERE codigo = ?;";
+            String sql = "DELETE FROM " + NOMEDATABELA + " WHERE id = ?;";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, marca.getCodigo());
+            ps.setInt(1, idFuncionario);
             ps.executeUpdate();
             ps.close();
             conn.close();
@@ -65,17 +64,21 @@ public class FuncionarioCLTDAO{
         }
     }
     
-    public Usuario procurarPorCodigo(Usuario marca) {
+    public FuncionarioCLT procurarPorId(int idFuncionario) {
         try {
             Connection conn = Conexao.conectar();
-            String sql = "SELECT * FROM " + NOMEDATABELA + " WHERE codigo = ?;";
+            String sql = "SELECT nome, email, senha, cargo, salario_mensal FROM usuario, funcionario, " + NOMEDATABELA + " WHERE funcionario_clt.id = " + idFuncionario + " AND usuario.id = funcionario.id AND funcionario.id = funcionario_clt.id;";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, marca.getCodigo());
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                Marca obj = new Marca();
-                obj.setCodigo(rs.getInt(1));
-                obj.setDescricao(rs.getString(2));
+            	FuncionarioCLT obj = new FuncionarioCLT(rs.getString(1), rs.getString(2), rs.getString(3), TipoUsuario.FUNCIONARIO, StatusUsuario.ATIVADO);
+                obj.setNome(rs.getString(1));
+                obj.setEmail(rs.getString(2));
+                obj.setSenha(rs.getString(3));
+                obj.setTipo(TipoUsuario.FUNCIONARIO);
+                obj.setStatus(StatusUsuario.ATIVADO);
+                obj.setCargo(rs.getString(4));
+                obj.setSalarioMensal(rs.getDouble(5));
                 ps.close();
                 rs.close();
                 conn.close();
@@ -92,17 +95,21 @@ public class FuncionarioCLTDAO{
         }
     }
     
-    public Usuario procurarPorDescricao(Usuario marca) {
+    public FuncionarioCLT procurarPorDescricao(int idFuncionario) {
         try {
             Connection conn = Conexao.conectar();
-            String sql = "SELECT * FROM " + NOMEDATABELA + " WHERE descricao = ?;";
+            String sql = "SELECT nome, email, senha, cargo, salario_mensal FROM usuario, funcionario, " + NOMEDATABELA + " WHERE funcionario_clt.id = " + idFuncionario + " AND usuario.id = funcionario.id AND funcionario.id = funcionario_clt.id;";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, marca.getDescricao());
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-            	Usuario obj = new Usuario();
-                obj.setCodigo(rs.getInt(1));
-                obj.setDescricao(rs.getString(2));
+            	FuncionarioCLT obj = new FuncionarioCLT(rs.getString(1), rs.getString(2), rs.getString(3), TipoUsuario.FUNCIONARIO, StatusUsuario.ATIVADO);
+                obj.setNome(rs.getString(1));
+                obj.setEmail(rs.getString(2));
+                obj.setSenha(rs.getString(3));
+                obj.setTipo(TipoUsuario.FUNCIONARIO);
+                obj.setStatus(StatusUsuario.ATIVADO);
+                obj.setCargo(rs.getString(4));
+                obj.setSalarioMensal(rs.getDouble(5));
                 ps.close();
                 rs.close();
                 conn.close();
@@ -117,7 +124,7 @@ public class FuncionarioCLTDAO{
             return null;
         }
     }
-    */
+    
     public boolean existe(FuncionarioCLT funcionarioclt, int idUsuario) {
         try {
             Connection conn = Conexao.conectar();
@@ -140,7 +147,7 @@ public class FuncionarioCLTDAO{
     public List<FuncionarioCLT> pesquisarTodos(int idFuncionario) {
         try {
             Connection conn = Conexao.conectar();
-            String sql = "SELECT nome, email, senha, cargo, salario_mensal FROM usuario, funcionario, " + NOMEDATABELA + " WHERE usuario.id = funcionario_clt.id AND funcionario.id = " + idFuncionario + ";";
+            String sql = "SELECT nome, email, senha, cargo, salario_mensal FROM usuario, funcionario, " + NOMEDATABELA + " WHERE funcionario_clt.id = " + idFuncionario + " AND usuario.id = funcionario.id AND funcionario.id = funcionario_clt.id;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             List<FuncionarioCLT> listObj = montarLista(rs);
@@ -191,14 +198,14 @@ public class FuncionarioCLTDAO{
 	    return 0;
 	}
 	
-	public int pegarSalario(int id) {
+	public double pegarSalario(int id) {
 	    try {
 	        Connection conn = Conexao.conectar();
 	        String sql = "SELECT salario_mensal FROM " + NOMEDATABELA + " WHERE id = " + id + ";";
 	        PreparedStatement ps = conn.prepareStatement(sql);
 	        ResultSet rs = ps.executeQuery();
 	        if (rs.next()) {
-	            return rs.getInt(1);
+	            return rs.getDouble(1);
 	        }
 	        ps.close();
 	        rs.close();
@@ -210,19 +217,5 @@ public class FuncionarioCLTDAO{
 	    return 0;
 	}
 	
-	public boolean atualizarSalario(Double salario, int idFuncionario) {
-        try {
-            Connection conn = Conexao.conectar();
-            String sql = "UPDATE " + NOMEDATABELA + " SET salario_mensal = ? WHERE id = " + idFuncionario + ";";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setDouble(1, salario);
-            ps.executeUpdate();
-            ps.close();
-            conn.close();
-            return true;
-        } catch (Exception e) {
-        	 e.printStackTrace();
-             return false;
-        }
-    }
+	
 }

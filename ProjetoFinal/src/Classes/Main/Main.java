@@ -6,6 +6,14 @@ import java.util.List;
 import java.util.Scanner;
 import Classes.BO.*;
 import Classes.DTO.*;
+import java.io.File;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
+import com.itextpdf.kernel.pdf.*;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Paragraph;
+import java.time.format.DateTimeFormatter;
 public class Main {
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
@@ -23,7 +31,7 @@ public class Main {
 		int op = 0;
 		boolean termina = false;
 		boolean continua = false;
-		StringBuilder texto = new StringBuilder();
+		
 		
 		do {
 			System.out.println("---  Menu do sistema  ---"
@@ -80,10 +88,10 @@ public class Main {
 					if ("ADMINISTRADOR".equals(usuarioLogado.getTipoString())) {
 						do { // menu do admim
 							System.out.println("\n" + "---  Menu Admim  ---"
-											 + "\n" + "1. ativar/desativar um usuario"
-											 + "\n" + "2. atualizar um usuario"
-											 + "\n" + "3. cadastrar um funcionario"
-											 + "\n" + "4. atualizar um funcionario"
+											 + "\n" + "1. ativar/desativar um usuário"
+											 + "\n" + "2. atualizar um usuário"
+											 + "\n" + "3. cadastrar um funcionário"
+											 + "\n" + "4. atualizar um funcionário"
 											 + "\n" + "5. cadastrar os beneficios/descontos do funcionario CLT"
 											 + "\n" + "6. atualizar os beneficios/descontos do funcionario CLT"
 											 + "\n" + "7. cadastrar um banco"
@@ -108,7 +116,7 @@ public class Main {
 								lista = usuarioBO.pesquisarTodos();
 								System.out.println("\n" + "---  Menu de Ativação/Desativação (usuário) ---");
 								System.out.print("\n" + "Selecione qual usuário você quer ativar/desativar");
-								System.out.println("\n" + "Usuários disponíveis:");
+								System.out.println("\n\n" + "Usuários disponíveis:");
 								for (int i = 0; i < lista.size(); i++) {
 									System.out.println((i + 1) + ". " + lista.get(i).mostrarTodos());
 								}
@@ -200,7 +208,11 @@ public class Main {
 									} else if (tipo == 2) { // cadastro Horista pelo admim
 										System.out.print("\n" + "Salário por Hora: ");
 										double salarioHora = scan.nextDouble();
-										FuncionarioHorista funcHorista = new FuncionarioHorista(nome, email, "", TipoUsuario.FUNCIONARIO, StatusUsuario.ATIVADO, cargo, salarioHora);
+										System.out.print("\n" + "Horas Trabalhadas (no mês): ");
+										double horasTrabalhadas = scan.nextDouble();
+										System.out.print("\n" + "Horas Extras (caso houver): ");
+										double horasExtras = scan.nextDouble();
+										FuncionarioHorista funcHorista = new FuncionarioHorista(nome, email, "", TipoUsuario.FUNCIONARIO, StatusUsuario.ATIVADO, cargo, salarioHora, horasTrabalhadas, horasExtras);
 										if (funcionarioHoristaBO.inserir(funcHorista, idUsuario)) {
 											System.out.println("\n" + "Funcionario Horista cadastrado com sucesso");
 										} else {
@@ -212,7 +224,11 @@ public class Main {
 										System.out.print("\n" + "Porcentagem da Comissão (número inteiro): ");
 										double porcentagemNaoAjustada = scan.nextDouble();
 										double porcentagemReal = porcentagemNaoAjustada / 100;
-										FuncionarioComissionado funcComissionado = new FuncionarioComissionado(nome, email, "", TipoUsuario.FUNCIONARIO, StatusUsuario.ATIVADO, cargo, salarioBase, porcentagemReal);
+										System.out.print("\n" + "Valor total de vendas realizadas (no mês): ");
+										double vendaRealizadas = scan.nextInt();
+										System.out.print("\n" + "Bonus (caso houver): ");
+										double bonus = scan.nextDouble();
+										FuncionarioComissionado funcComissionado = new FuncionarioComissionado(nome, email, "", TipoUsuario.FUNCIONARIO, StatusUsuario.ATIVADO, cargo, salarioBase, porcentagemReal, vendaRealizadas, bonus);
 										if (funcionarioComissionadoBO.inserir(funcComissionado, idUsuario)) {
 											System.out.println("\n" + "Funcionario Comissioando cadastrado com sucesso");
 										} else {
@@ -226,7 +242,7 @@ public class Main {
 								lista = usuarioBO.pesquisarTodosFuncionarios();
 								System.out.println("\n" + "---  Menu de Cadastro (Beneficio/Desconto)  ---");
 								System.out.print("\n" + "Selecione para que usuário você ira cadastrar o beneficio/desconto");
-								System.out.println("\n" + "Funcionários disponíveis:");
+								System.out.println("\n\n" + "Funcionários disponíveis:");
 								for (int i = 0; i < lista.size(); i++) {
 									System.out.println((i + 1) + ". " + lista.get(i).mostrarTodosFuncionarios());
 								}
@@ -321,7 +337,7 @@ public class Main {
 								lista = usuarioBO.pesquisarTodosFuncionarios();
 								System.out.println("\n" + "---  Menu de Geração (Folha de Pagamento)  ---");
 								System.out.print("\n" + "Selecione para que funcionário você ira gerar a folha de pagamento");
-								System.out.println("\n" + "Funcionários disponíveis:");
+								System.out.println("\n\n" + "Funcionários disponíveis:");
 								for (int i = 0; i < lista.size(); i++) {
 									System.out.println((i + 1) + ". " + lista.get(i).mostrarTodosFuncionarios());
 								}
@@ -335,21 +351,183 @@ public class Main {
 								scan.nextLine();
 								Usuario transicao = lista.get(escolha - 1);
 								int idTransicao = usuarioBO.pegarId(transicao);
-								FuncionarioCLT funcionarioSelecionado = new FuncionarioCLT(transicao.getNome(), transicao.getEmail(), transicao.getSenha(), TipoUsuario.FUNCIONARIO, StatusUsuario.ATIVADO, "", 0);
-								int idFuncionario = funcionarioCLTBO.pegarId(idTransicao);
-								double salario = funcionarioCLTBO.pegarSalario(idFuncionario);
-								funcionarioSelecionado.setSalarioMensal(salario);
-								funcionarioCLTBO.atualizarSalario(salario, idFuncionario);
-								double salarioLiquido = funcionarioSelecionado.calcularPagamento(idFuncionario);
-								System.out.print("\n" + "Descrição da Folha (digite 'FIM' em uma nova linha para terminar): ");
-								while (true) {
-						            String linha = scan.nextLine(); // Lê uma linha do texto
-						            if (linha.equalsIgnoreCase("FIM")) { // Verifica se a linha é "FIM"
-						                break;
-						            }
-						            texto.append(linha).append("\n"); // Adiciona a linha ao texto, incluindo a quebra de linha
-						        }
-								FolhaDePagamento folha = new FolhaDePagamento(funcionarioSelecionado, hoje, primeiroDia, ultimoDia, salarioLiquido, texto.toString());
+								FuncionarioCLT funcionarioSelecionadoCLT = null;
+								FuncionarioHorista funcionarioSelecionadoHorista = null;
+								FuncionarioComissionado funcionarioSelecionadoComissionado = null;
+								FolhaDePagamento folha = null;
+								int idFuncionario = 0;
+								double salario = 0;
+								double comissao = 0;
+								double vendas = 0;
+								double bonus = 0;
+								double horasTrabalhadas = 0;
+								double horasExtras = 0;
+								int funcTipo = usuarioBO.verificaFuncTipo(idTransicao);
+								if (funcTipo == 1) {
+									StringBuilder texto = new StringBuilder();	
+								    idFuncionario = funcionarioCLTBO.pegarId(idTransicao);
+									salario = funcionarioCLTBO.pegarSalario(idFuncionario);
+									funcionarioSelecionadoCLT = new FuncionarioCLT(transicao.getNome(), transicao.getEmail(), transicao.getSenha(), TipoUsuario.FUNCIONARIO, StatusUsuario.ATIVADO, "", salario);
+									double salarioLiquido = funcionarioSelecionadoCLT.calcularPagamento(idFuncionario);
+									System.out.print("\n" + "Observações da Folha (digite 'FIM' em uma nova linha para terminar): ");
+									texto.delete(0, texto.length());
+									while (true) {
+							            String linha = scan.nextLine(); // Lê uma linha do texto
+							            if (linha.equalsIgnoreCase("FIM")) { // Verifica se a linha é "FIM"
+							                break;
+							            }
+							            texto.append(linha).append("\n"); // Adiciona a linha ao texto, incluindo a quebra de linha
+							        }
+									folha = new FolhaDePagamento(funcionarioSelecionadoCLT, hoje, primeiroDia, ultimoDia, salarioLiquido, texto.toString());
+									System.out.println("\n" + "Você quer gerar o pdf da folha de pagamento? "
+											+ "\n" + "  1. Sim"
+											+ "\n" + "  2. Não");
+									System.out.print("\n" + "Escolha: ");
+									int geraPDF = scan.nextInt();
+									if (geraPDF == 1) {
+										String padrao = "###,###.00";
+										DecimalFormatSymbols simbolos = new DecimalFormatSymbols(new Locale("pt", "BR"));
+										simbolos.setDecimalSeparator(',');
+								        simbolos.setGroupingSeparator('.');
+										DecimalFormat formato = new DecimalFormat(padrao, simbolos);
+										DateTimeFormatter formatacaoDaData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+										try {
+								            // Caminho onde o PDF será salvo
+								            String caminhoArquivo = "FolhaPagamento_" + folha.getFuncionarioCLT().getNome() + ".pdf";
+
+								            // Inicializa o PDF Writer e o Document
+								            PdfWriter writer = new PdfWriter(new File(caminhoArquivo));
+								            PdfDocument pdfDoc = new PdfDocument(writer);
+								            Document document = new Document(pdfDoc);
+
+								            // Adiciona o conteúdo ao PDF
+								            document.add(new Paragraph("--- Folha de Pagamento ---\n\n"));
+								            document.add(new Paragraph("Nome do Funcionário: " + folha.getFuncionarioCLT().getNome()));
+								            document.add(new Paragraph("Data de Emissão da Folha de Pagamento: " + folha.getDataGeracao().format(formatacaoDaData)));
+								            document.add(new Paragraph("Folha de Pagamento referente à: " + formatacaoDaData.format(folha.getPeriodoInicio()) + " a " + formatacaoDaData.format(folha.getPeriodoFim())));
+								            document.add(new Paragraph("Salário Líquido: R$" + formato.format(folha.getValorPago())));
+								            document.add(new Paragraph("\nObservações:\n" + folha.getObservacoes()));
+
+								            // Fecha o documento
+								            document.close();
+								            System.out.println("\nPDF gerado com sucesso: " + caminhoArquivo);
+								        } catch (Exception e) {
+								            System.out.println("Erro ao gerar PDF: " + e.getMessage());
+								        }
+									}
+									scan.nextLine();
+								} else if (funcTipo == 2) {
+									StringBuilder texto = new StringBuilder();
+									idFuncionario = funcionarioHoristaBO.pegarId(idTransicao);
+									salario = funcionarioHoristaBO.pegarSalarioHora(idFuncionario);
+									horasTrabalhadas = funcionarioHoristaBO.pegarHorasTrabalhadas(idFuncionario);
+									horasExtras = funcionarioHoristaBO.pegarHorasExtras(idFuncionario);
+									funcionarioSelecionadoHorista = new FuncionarioHorista(transicao.getNome(), transicao.getEmail(), transicao.getSenha(), TipoUsuario.FUNCIONARIO, StatusUsuario.ATIVADO, "", salario, horasTrabalhadas, horasExtras);
+									double salarioLiquido = funcionarioSelecionadoHorista.calcularPagamento(idFuncionario);
+									System.out.print("\n" + "Observações da Folha (digite 'FIM' em uma nova linha para terminar): ");
+									texto.delete(0, texto.length());
+									while (true) {
+							            String linha = scan.nextLine(); // Lê uma linha do texto
+							            if (linha.equalsIgnoreCase("FIM")) { // Verifica se a linha é "FIM"
+							                break;
+							            }
+							            texto.append(linha).append("\n"); // Adiciona a linha ao texto, incluindo a quebra de linha
+							        }
+									folha = new FolhaDePagamento(funcionarioSelecionadoHorista, hoje, primeiroDia, ultimoDia, salarioLiquido, texto.toString());
+									System.out.println("\n" + "Você quer gerar o pdf da folha de pagamento? "
+											+ "\n" + "  1. Sim"
+											+ "\n" + "  2. Não");
+									System.out.print("\n" + "Escolha: ");
+									int geraPDF = scan.nextInt();
+									if (geraPDF == 1) {
+										String padrao = "###,###.00";
+										DecimalFormatSymbols simbolos = new DecimalFormatSymbols(new Locale("pt", "BR"));
+										simbolos.setDecimalSeparator(',');
+								        simbolos.setGroupingSeparator('.');
+										DecimalFormat formato = new DecimalFormat(padrao, simbolos);
+										DateTimeFormatter formatacaoDaData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+										try {
+								            // Caminho onde o PDF será salvo
+								            String caminhoArquivo = "FolhaPagamento_" + folha.getFuncionarioHorista().getNome() + ".pdf";
+
+								            // Inicializa o PDF Writer e o Document
+								            PdfWriter writer = new PdfWriter(new File(caminhoArquivo));
+								            PdfDocument pdfDoc = new PdfDocument(writer);
+								            Document document = new Document(pdfDoc);
+
+								            // Adiciona o conteúdo ao PDF
+								            document.add(new Paragraph("--- Folha de Pagamento ---\n\n"));
+								            document.add(new Paragraph("Nome do Funcionário: " + folha.getFuncionarioHorista().getNome()));
+								            document.add(new Paragraph("Data de Emissão da Folha de Pagamento: " + folha.getDataGeracao().format(formatacaoDaData)));
+								            document.add(new Paragraph("Folha de Pagamento referente à: " + formatacaoDaData.format(folha.getPeriodoInicio()) + " a " + formatacaoDaData.format(folha.getPeriodoFim())));
+								            document.add(new Paragraph("Salário Líquido: R$" + formato.format(folha.getValorPago())));
+								            document.add(new Paragraph("\nObservações:\n" + folha.getObservacoes()));
+
+								            // Fecha o documento
+								            document.close();
+								            System.out.println("\nPDF gerado com sucesso: " + caminhoArquivo);
+								        } catch (Exception e) {
+								            System.out.println("Erro ao gerar PDF: " + e.getMessage());
+								        }
+									}
+									scan.nextLine();
+								} else if (funcTipo == 3) {
+									StringBuilder texto = new StringBuilder();
+									idFuncionario = funcionarioComissionadoBO.pegarId(idTransicao);
+									salario = funcionarioComissionadoBO.pegarSalarioBase(idFuncionario);
+									comissao = funcionarioComissionadoBO.pegarComissao(idFuncionario);
+									vendas = funcionarioComissionadoBO.pegarVendas(idFuncionario);
+									bonus = funcionarioComissionadoBO.pegarBonus(idFuncionario);
+									funcionarioSelecionadoComissionado = new FuncionarioComissionado(transicao.getNome(), transicao.getEmail(), transicao.getSenha(), TipoUsuario.FUNCIONARIO, StatusUsuario.ATIVADO, "", salario, comissao, vendas, bonus);
+									double salarioLiquido = funcionarioSelecionadoComissionado.calcularPagamento(idFuncionario);
+									System.out.print("\n" + "Observações da Folha (digite 'FIM' em uma nova linha para terminar): ");
+									texto.delete(0, texto.length());
+									while (true) {
+							            String linha = scan.nextLine(); // Lê uma linha do texto
+							            if (linha.equalsIgnoreCase("FIM")) { // Verifica se a linha é "FIM"
+							                break;
+							            }
+							            texto.append(linha).append("\n"); // Adiciona a linha ao texto, incluindo a quebra de linha
+							        }
+									folha = new FolhaDePagamento(funcionarioSelecionadoComissionado, hoje, primeiroDia, ultimoDia, salarioLiquido, texto.toString());
+									System.out.println("\n" + "Você quer gerar o pdf da folha de pagamento? "
+											+ "\n" + "  1. Sim"
+											+ "\n" + "  2. Não");
+									System.out.print("\n" + "Escolha: ");
+									int geraPDF = scan.nextInt();
+									if (geraPDF == 1) {
+										String padrao = "###,###.00";
+										DecimalFormatSymbols simbolos = new DecimalFormatSymbols(new Locale("pt", "BR"));
+										simbolos.setDecimalSeparator(',');
+								        simbolos.setGroupingSeparator('.');
+										DecimalFormat formato = new DecimalFormat(padrao, simbolos);
+										DateTimeFormatter formatacaoDaData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+										try {
+								            // Caminho onde o PDF será salvo
+								            String caminhoArquivo = "FolhaPagamento_" + folha.getFuncionarioComissionado().getNome() + ".pdf";
+
+								            // Inicializa o PDF Writer e o Document
+								            PdfWriter writer = new PdfWriter(new File(caminhoArquivo));
+								            PdfDocument pdfDoc = new PdfDocument(writer);
+								            Document document = new Document(pdfDoc);
+
+								            // Adiciona o conteúdo ao PDF
+								            document.add(new Paragraph("--- Folha de Pagamento ---\n\n"));
+								            document.add(new Paragraph("Nome do Funcionário: " + folha.getFuncionarioComissionado().getNome()));
+								            document.add(new Paragraph("Data de Emissão da Folha de Pagamento: " + folha.getDataGeracao().format(formatacaoDaData)));
+								            document.add(new Paragraph("Folha de Pagamento referente à: " + formatacaoDaData.format(folha.getPeriodoInicio()) + " a " + formatacaoDaData.format(folha.getPeriodoFim())));
+								            document.add(new Paragraph("Salário Líquido: R$" + formato.format(folha.getValorPago())));
+								            document.add(new Paragraph("\nObservações:\n" + folha.getObservacoes()));
+
+								            // Fecha o documento
+								            document.close();
+								            System.out.println("\nPDF gerado com sucesso: " + caminhoArquivo);
+								        } catch (Exception e) {
+								            System.out.println("Erro ao gerar PDF: " + e.getMessage());
+								        }
+									}
+									scan.nextLine();
+								}
 								if (folhaDePagamentoBO.inserir(folha, idFuncionario)) {
 									System.out.println("\n" + "Folha gerada com sucesso com Sucesso");
 								} else {
@@ -451,7 +629,7 @@ public class Main {
 							}
 							
 							if (benDesBO.inserir(inss, idFuncionario) && benDesBO.inserir(fgts, idFuncionario) && benDesBO.inserir(irrf, idFuncionario)) {
-								System.out.println("\n" + "Funcionario CLT cadastrado com sucesso");
+								System.out.println("\n" + "Funcionario CLT cadastrado com sucesso" + "\n");
 							} else {
 								System.out.println("\n" + "Algo deu errado");
 							}
@@ -459,9 +637,13 @@ public class Main {
 					} else if (tipo == 2) { // cadastro Horista
 						System.out.print("\n" + "Salário por Hora: ");
 						double salarioHora = scan.nextDouble();
-						FuncionarioHorista funcHorista = new FuncionarioHorista(nome, email, senha, TipoUsuario.FUNCIONARIO, StatusUsuario.ATIVADO, cargo, salarioHora);
+						System.out.print("\n" + "Horas Trabalhadas (no mês): ");
+						double horasTrabalhadas = scan.nextDouble();
+						System.out.print("\n" + "Horas Extras (caso houver): ");
+						double horasExtras = scan.nextDouble();
+						FuncionarioHorista funcHorista = new FuncionarioHorista(nome, email, senha, TipoUsuario.FUNCIONARIO, StatusUsuario.ATIVADO, cargo, salarioHora, horasTrabalhadas, horasExtras);
 						if (funcionarioHoristaBO.inserir(funcHorista, idUsuario)) {
-							System.out.println("\n" + "Funcionario Horista cadastrado com sucesso");
+							System.out.println("\n" + "Funcionario Horista cadastrado com sucesso" + "\n");
 						} else {
 							System.out.println("\n" + "Algo deu errado");
 						}
@@ -471,9 +653,13 @@ public class Main {
 						System.out.print("\n" + "Porcentagem da Comissão (número inteiro): ");
 						double porcentagemNaoAjustada = scan.nextDouble();
 						double porcentagemReal = porcentagemNaoAjustada / 100;
-						FuncionarioComissionado funcComissionado = new FuncionarioComissionado(nome, email, senha, TipoUsuario.FUNCIONARIO, StatusUsuario.ATIVADO, cargo, salarioBase, porcentagemReal);
+						System.out.print("\n" + "Valor total de vendas realizadas (no mês): ");
+						double vendaRealizadas = scan.nextInt();
+						System.out.print("\n" + "Bonus (caso houver): ");
+						double bonus = scan.nextDouble();
+						FuncionarioComissionado funcComissionado = new FuncionarioComissionado(nome, email, senha, TipoUsuario.FUNCIONARIO, StatusUsuario.ATIVADO, cargo, salarioBase, porcentagemReal, vendaRealizadas, bonus);
 						if (funcionarioComissionadoBO.inserir(funcComissionado, idUsuario)) {
-							System.out.println("\n" + "Funcionario Comissioando cadastrado com sucesso");
+							System.out.println("\n" + "Funcionario Comissioando cadastrado com sucesso" + "\n");
 						} else {
 							System.out.println("\n" + "Algo deu errado");
 						}
