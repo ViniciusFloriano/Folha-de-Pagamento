@@ -21,25 +21,25 @@ public class FuncionarioComissionadoBO {
     	FuncionarioComissionadoDAO funcionarioComissionadoDAO = new FuncionarioComissionadoDAO();
         return funcionarioComissionadoDAO.excluir(idFuncionario);
     }
-    /*
-    public Usuario procurarPorCodigo(Usuario usuario){
-    	UsuarioDAO usuarioDAO = new UsuarioDAO();
-        return usuarioDAO.procurarPorCodigo(usuario);
+    
+    public FuncionarioComissionado procurarPorId(int idFuncionario){
+    	FuncionarioComissionadoDAO funcionarioComissionadoDAO = new FuncionarioComissionadoDAO();
+        return funcionarioComissionadoDAO.procurarPorId(idFuncionario);
     }
     
-    public Usuario procurarPorDescricao(Usuario usuario){
-    	UsuarioDAO usuarioDAO = new UsuarioDAO();
-        return usuarioDAO.procurarPorDescricao(usuario);
+    public FuncionarioComissionado procurarPorDescricao(int idFuncionario){
+    	FuncionarioComissionadoDAO funcionarioComissionadoDAO = new FuncionarioComissionadoDAO();
+        return funcionarioComissionadoDAO.procurarPorDescricao(idFuncionario);
     }
-    */
+    
     public boolean existe(FuncionarioComissionado funcionarioComissionado, int idFuncionario){
     	FuncionarioComissionadoDAO funcionarioComissionadoDAO = new FuncionarioComissionadoDAO();
         return funcionarioComissionadoDAO.existe(funcionarioComissionado, idFuncionario);
     }
     
-    public List<FuncionarioComissionado> pesquisarTodos(int idFuncionario){
+    public List<FuncionarioComissionado> pesquisarTodos(){
     	FuncionarioComissionadoDAO funcionarioComissionadoDAO = new FuncionarioComissionadoDAO();
-        return funcionarioComissionadoDAO.pesquisarTodos(idFuncionario);
+        return funcionarioComissionadoDAO.pesquisarTodos();
     }
     
     public int pegarId(int id){

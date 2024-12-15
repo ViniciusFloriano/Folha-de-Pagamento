@@ -151,10 +151,10 @@ final String NOMEDATABELA = "funcionario_horista";
         return false;
     }
     
-    public List<FuncionarioHorista> pesquisarTodos(int idFuncionario) {
+    public List<FuncionarioHorista> pesquisarTodos() {
         try {
         	Connection conn = Conexao.conectar();
-            String sql = "SELECT nome, email, senha, cargo, salario_hora, horas_trabalhadas, horas_extras FROM usuario, funcionario, " + NOMEDATABELA + " WHERE funcionario_horista.id = " + idFuncionario + " AND usuario.id = funcionario_horista.id AND usuario.id = funcionario.id;";
+            String sql = "SELECT nome, email, senha, cargo, salario_hora, horas_trabalhadas, horas_extras FROM usuario, funcionario, " + NOMEDATABELA + ";";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             List<FuncionarioHorista> listObj = montarLista(rs);

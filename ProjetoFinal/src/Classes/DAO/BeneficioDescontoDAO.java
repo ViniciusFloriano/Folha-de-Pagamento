@@ -27,14 +27,13 @@ public class BeneficioDescontoDAO {
 			return false;
 		}
 	}
-	/*
-	public boolean alterar(Usuario marca) {
+	
+	public boolean alterarDescricao(BeneficioDesconto beneficioDesconto, int idFuncionario) {
 		try {
 			Connection conn = Conexao.conectar();
-			String sql = "UPDATE " + NOMEDATABELA + " SET descricao = ? WHERE codigo = ?;";
+			String sql = "UPDATE " + NOMEDATABELA + " SET descricao = ? WHERE funcionario_id = " + idFuncionario + ";";
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, marca.getDescricao());
-			ps.setInt(2, marca.getCodigo());
+			ps.setString(1, beneficioDesconto.getDescricao());
 			ps.executeUpdate();
 			ps.close();
 			conn.close();
@@ -45,12 +44,11 @@ public class BeneficioDescontoDAO {
 		}
 	}
 
-	public boolean excluir(Usuario marca) {
+	public boolean excluir(int idFuncionario) {
 		try {
 			Connection conn = Conexao.conectar();
-			String sql = "DELETE FROM " + NOMEDATABELA + " WHERE codigo = ?;";
+			String sql = "DELETE FROM " + NOMEDATABELA + " WHERE funcionario_id = " + idFuncionario + ";";
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setInt(1, marca.getCodigo());
 			ps.executeUpdate();
 			ps.close();
 			conn.close();
@@ -60,18 +58,22 @@ public class BeneficioDescontoDAO {
 			return false;
 		}
 	}
-
-	public Usuario procurarPorCodigo(Usuario marca) {
+	
+	public BeneficioDesconto procurarPorFuncionario(int idFuncionario) {
 		try {
 			Connection conn = Conexao.conectar();
-			String sql = "SELECT * FROM " + NOMEDATABELA + " WHERE codigo = ?;";
+			String sql = "SELECT descricao, valor, tipo FROM " + NOMEDATABELA + " WHERE funcionario_id = " + idFuncionario + ";";
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setInt(1, marca.getCodigo());
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				Marca obj = new Marca();
-				obj.setCodigo(rs.getInt(1));
-				obj.setDescricao(rs.getString(2));
+				BeneficioDesconto obj = new BeneficioDesconto();
+				obj.setDescricao(rs.getString(1));
+				obj.setValor(rs.getDouble(2));
+                if (rs.getString(3).equals("BENEFICIO")) {
+                	obj.setTipo(TipoBenDes.BENEFICIO);
+                } else if (rs.getString(3).equals("DESCONTO")) {
+                	obj.setTipo(TipoBenDes.DESCONTO);
+                }
 				ps.close();
 				rs.close();
 				conn.close();
@@ -88,17 +90,21 @@ public class BeneficioDescontoDAO {
 		}
 	}
 
-	public Usuario procurarPorDescricao(Usuario marca) {
+	public BeneficioDesconto procurarPorDescricao(String pesquisa) {
 		try {
 			Connection conn = Conexao.conectar();
-			String sql = "SELECT * FROM " + NOMEDATABELA + " WHERE descricao = ?;";
+			String sql = "SELECT descricao, valor, tipo FROM " + NOMEDATABELA + " WHERE descricao = " + pesquisa + ";";
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, marca.getDescricao());
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				Usuario obj = new Usuario();
-				obj.setCodigo(rs.getInt(1));
-				obj.setDescricao(rs.getString(2));
+				BeneficioDesconto obj = new BeneficioDesconto();
+				obj.setDescricao(rs.getString(1));
+				obj.setValor(rs.getDouble(2));
+                if (rs.getString(3).equals("BENEFICIO")) {
+                	obj.setTipo(TipoBenDes.BENEFICIO);
+                } else if (rs.getString(3).equals("DESCONTO")) {
+                	obj.setTipo(TipoBenDes.DESCONTO);
+                }
 				ps.close();
 				rs.close();
 				conn.close();
@@ -113,11 +119,11 @@ public class BeneficioDescontoDAO {
 			return null;
 		}
 	}
-
-	public boolean existe(BeneficioDesconto beneficioDesconto, int idUsuario) {
+	
+	public boolean existe(int idFuncionario) {
 		try {
 			Connection conn = Conexao.conectar();
-			String sql = "SELECT * FROM usuario, funcionario, " + NOMEDATABELA + " WHERE usuario.id = " + idUsuario + " AND usuario.id = funcionario.id AND funcionario.id = funcionario_horista.id;";
+			String sql = "SELECT * FROM funcionario, " + NOMEDATABELA + " WHERE beneficio_desconto.funcionario_id = " + idFuncionario + " AND funcionario.id = beneficio_desconto.funcionario_id;";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
@@ -133,13 +139,13 @@ public class BeneficioDescontoDAO {
 		return false;
 	}
 
-	public List<Usuario> pesquisarTodos() {
+	public List<BeneficioDesconto> pesquisarTodos() {
 		try {
 			Connection conn = Conexao.conectar();
-			String sql = "SELECT * FROM " + NOMEDATABELA + ";";
+			String sql = "SELECT descricao, valor, tipo FROM " + NOMEDATABELA + ";";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
-			List<Usuario> listObj = montarLista(rs);
+			List<BeneficioDesconto> listObj = montarLista(rs);
 			return listObj;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -147,13 +153,18 @@ public class BeneficioDescontoDAO {
 		}
 	}
 
-	public List<Usuario> montarLista(ResultSet rs) {
-		List<Usuario> listObj = new ArrayList<Usuario>();
+	public List<BeneficioDesconto> montarLista(ResultSet rs) {
+		List<BeneficioDesconto> listObj = new ArrayList<BeneficioDesconto>();
 		try {
 			while (rs.next()) {
-				Marca obj = new Marca();
-				obj.setCodigo(rs.getInt(1));
-				obj.setDescricao(rs.getString(2));
+				BeneficioDesconto obj = new BeneficioDesconto();
+				obj.setDescricao(rs.getString(1));
+				obj.setValor(rs.getDouble(2));
+                if (rs.getString(3).equals("BENEFICIO")) {
+                	obj.setTipo(TipoBenDes.BENEFICIO);
+                } else if (rs.getString(3).equals("DESCONTO")) {
+                	obj.setTipo(TipoBenDes.DESCONTO);
+                }
 				listObj.add(obj);
 			}
 			return listObj;
@@ -161,21 +172,21 @@ public class BeneficioDescontoDAO {
 			e.printStackTrace();
 			return null;
 		}
-	}*/
+	}
 	
 	public List<BeneficioDesconto> buscarDescontosPorFuncionario(int idFuncionario) {
         List<BeneficioDesconto> descontos = new ArrayList<>();
         try {
             Connection conn = Conexao.conectar();
-            String sql = "SELECT * FROM " + NOMEDATABELA + " WHERE funcionario_id = ?";
+            String sql = "SELECT descricao, valor, tipo FROM " + NOMEDATABELA + " WHERE funcionario_id = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, idFuncionario);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 BeneficioDesconto desconto = new BeneficioDesconto();
-                desconto.setDescricao(rs.getString("descricao"));
-                desconto.setValor(rs.getDouble("valor"));
+                desconto.setDescricao(rs.getString(1));
+                desconto.setValor(rs.getDouble(2));
                 desconto.setTipo(TipoBenDes.DESCONTO);
                 descontos.add(desconto);
             }

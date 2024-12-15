@@ -1,4 +1,5 @@
 package Classes.BO;
+import java.util.List;
 import Classes.DAO.FolhaDePagamentoDAO;
 import Classes.DTO.FolhaDePagamento;
 public class FolhaDePagamentoBO {
@@ -32,9 +33,9 @@ public class FolhaDePagamentoBO {
     	FuncionarioCLTDAO funcionariocltDAO = new FuncionarioCLTDAO();
         return funcionariocltDAO.existe(funcionarioclt, idUsuario);
     }
-    
-    public List<Usuario> pesquisarTodos(){
-    	UsuarioDAO usuarioDAO = new UsuarioDAO();
-        return usuarioDAO.pesquisarTodos();
-    }*/
+    */
+    public List<FolhaDePagamento> pesquisarTodos(int idFuncionario){
+    	FolhaDePagamentoDAO folhaDePagamentoDAO = new FolhaDePagamentoDAO();
+        return folhaDePagamentoDAO.pesquisarTodos(idFuncionario);
+    }
 }

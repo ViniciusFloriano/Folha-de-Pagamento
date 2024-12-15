@@ -7,6 +7,17 @@ public class Banco {
     private TipoConta tipoConta; // Corrente ou Poupança
 
     // Construtor
+    public Banco() {
+    	
+    }
+    
+    public Banco(String nomeBanco, String agencia, String numeroConta, TipoConta tipoConta) {
+        this.nomeBanco = nomeBanco;
+        this.agencia = agencia;
+        this.numeroConta = numeroConta;
+        this.tipoConta = tipoConta;
+    }
+    
     public Banco(Usuario funcionario, String nomeBanco, String agencia, String numeroConta, TipoConta tipoConta) {
         this.funcionario = funcionario;
         this.nomeBanco = nomeBanco;

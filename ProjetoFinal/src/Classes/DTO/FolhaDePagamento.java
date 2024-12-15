@@ -11,6 +11,10 @@ public class FolhaDePagamento {
     private String observacoes;
 
     // Construtor
+    public FolhaDePagamento() {
+    	
+    }
+    
     public FolhaDePagamento(FuncionarioCLT funcionarioCLT, LocalDate dataGeracao, LocalDate periodoInicio, LocalDate periodoFim, double valorPago, String observacoes) {
         this.funcionarioCLT = funcionarioCLT;
         this.dataGeracao = dataGeracao;

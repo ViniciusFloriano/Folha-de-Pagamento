@@ -144,10 +144,10 @@ public class FuncionarioCLTDAO{
         return false;
     }
     
-    public List<FuncionarioCLT> pesquisarTodos(int idFuncionario) {
+    public List<FuncionarioCLT> pesquisarTodos() {
         try {
             Connection conn = Conexao.conectar();
-            String sql = "SELECT nome, email, senha, cargo, salario_mensal FROM usuario, funcionario, " + NOMEDATABELA + " WHERE funcionario_clt.id = " + idFuncionario + " AND usuario.id = funcionario.id AND funcionario.id = funcionario_clt.id;";
+            String sql = "SELECT nome, email, senha, cargo, salario_mensal FROM usuario, funcionario, " + NOMEDATABELA + ";";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             List<FuncionarioCLT> listObj = montarLista(rs);

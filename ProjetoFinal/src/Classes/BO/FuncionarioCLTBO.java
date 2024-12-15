@@ -37,9 +37,9 @@ public class FuncionarioCLTBO {
         return funcionariocltDAO.existe(funcionarioclt, idUsuario);
     }
     
-    public List<FuncionarioCLT> pesquisarTodos(int idFuncionario){
+    public List<FuncionarioCLT> pesquisarTodos(){
     	FuncionarioCLTDAO funcionarioCLTDAO = new FuncionarioCLTDAO();
-        return funcionarioCLTDAO.pesquisarTodos(idFuncionario);
+        return funcionarioCLTDAO.pesquisarTodos();
     }
     
     public int pegarId(int id){

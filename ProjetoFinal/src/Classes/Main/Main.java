@@ -1,5 +1,6 @@
 package Classes.Main;
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ import com.itextpdf.kernel.pdf.*;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 public class Main {
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
@@ -89,23 +91,19 @@ public class Main {
 						do { // menu do admim
 							System.out.println("\n" + "---  Menu Admim  ---"
 											 + "\n" + "1. ativar/desativar um usuário"
-											 + "\n" + "2. atualizar um usuário"
+											 + "\n" + "2. cadastrar um usuário"
 											 + "\n" + "3. cadastrar um funcionário"
-											 + "\n" + "4. atualizar um funcionário"
-											 + "\n" + "5. cadastrar os beneficios/descontos do funcionario CLT"
-											 + "\n" + "6. atualizar os beneficios/descontos do funcionario CLT"
-											 + "\n" + "7. cadastrar um banco"
-											 + "\n" + "8. atualizar um banco"
-											 + "\n" + "9. gerar uma folha de pagamento"
-											 + "\n" + "10. atualizar uma folha de pagamento"
-											 + "\n" + "11. sair");
+											 + "\n" + "4. cadastrar os beneficios/descontos do funcionario CLT"
+											 + "\n" + "5. cadastrar um banco"
+											 + "\n" + "6. gerar uma folha de pagamento"
+											 + "\n" + "7. sair");
 							System.out.print("Escholha sua opção: ");
 							op = scan.nextInt();
-							while (op < 1 || op > 11) {
+							while (op < 1 || op > 7) {
 								System.out.println("Opção inválida");
 								System.out.print("Escholha sua opção: ");
 								op = scan.nextInt();
-								if (op == 11) {
+								if (op == 7) {
 									termina = true;
 									break;
 								}
@@ -148,6 +146,15 @@ public class Main {
 										System.out.println("\n" + "Algo deu errado");
 									}
 								}
+							} else if (op == 2) { // opção de cadastro no menu do admim
+								
+								
+								
+								
+								// em pensamento 
+								
+								
+								
 							} else if (op == 3) { // opção de cadastrar funcionario no menu do admim
 								scan.nextLine();
 								System.out.println("\n" + "---  Menu de Cadastro (funcionario) ---");
@@ -236,7 +243,7 @@ public class Main {
 										}
 									}
 								}
-							} else if (op == 5) { // opção de cadastrar um beneficio/desconto no menu do admim
+							} else if (op == 4) { // opção de cadastrar um beneficio/desconto no menu do admim
 								scan.nextLine();
 								List<Usuario> lista = new ArrayList<Usuario>();
 								lista = usuarioBO.pesquisarTodosFuncionarios();
@@ -286,7 +293,7 @@ public class Main {
 										System.out.println("\n" + "Algo deu errado");
 									}
 								}
-							} else if (op == 7) { // opção de cadastrar o banco no menu do admim
+							} else if (op == 5) { // opção de cadastrar o banco no menu do admim
 								scan.nextLine();
 								List<Usuario> lista = new ArrayList<Usuario>();
 								lista = usuarioBO.pesquisarTodosFuncionarios();
@@ -331,7 +338,7 @@ public class Main {
 										System.out.println("\n" + "Algo deu errado");
 									}
 								}
-							} else if (op == 9) { // opção de criar uma folha de pagamento
+							} else if (op == 6) { // opção de criar uma folha de pagamento
 								scan.nextLine();
 								List<Usuario> lista = new ArrayList<Usuario>();
 								lista = usuarioBO.pesquisarTodosFuncionarios();
@@ -533,7 +540,7 @@ public class Main {
 								} else {
 									System.out.println("\n" + "Erro ao Inserir");			
 								}
-							} else if (op == 11) { // opção de sair no menu do admim
+							} else if (op == 7) { // opção de sair no menu do admim
 								System.out.println("\n" + "---  Fim do programa  ---");
 								termina = true;
 							}
@@ -541,22 +548,99 @@ public class Main {
 					} else if ("FUNCIONARIO".equals(usuarioLogado.getTipoString())) {
 						do { //menu funcionario
 							System.out.println("\n" + "---  Menu Funcionário  ---"
-											 + "\n" + "1. atualizar informações"
-											 + "\n" + "2. cadastrar um banco"
-											 + "\n" + "3. atualizar o banco"
-											 + "\n" + "4. sair");
+											 + "\n" + "1. cadastrar um banco"
+											 + "\n" + "2. gerar folha de pagamento"
+											 + "\n" + "3. sair");
 							System.out.print("Escholha sua opção: ");
 							op = scan.nextInt();
-							while (op < 1 || op > 4) {
+							while (op < 1 || op > 3) {
 								System.out.println("Opção inválida");
 								System.out.print("Escholha sua opção: ");
 								op = scan.nextInt();
-								if (op == 4) {
+								if (op == 3) {
 									termina = true;
 									break;
 								}
 							}
-							if (op == 4) { // opção de sair no menu do funcionario
+							if (op == 1) { // opção de cadastrar um banco no menu do funcionario
+								scan.nextLine();
+								System.out.print("\n" + "Nome do Banco: ");
+								String nomeBanco = scan.nextLine();
+								System.out.print("\n" + "Agência: ");
+								String agencia = scan.nextLine();
+								System.out.print("\n" + "Número da Conta: ");
+								String numConta = scan.nextLine();
+								System.out.println("\n" + "Selecione um tipo de conta: "
+										+ "\n" + "  1. Corrente"
+										+ "\n" + "  2. Poupança");
+								System.out.print("\n" + "Tipo: ");
+								int tipo = scan.nextInt();
+								if (tipo == 1) { // cadastro conta corrente
+									Banco dadoBanco = new Banco(nomeBanco, agencia, numConta, TipoConta.CORRENTE);
+									if (bancoBO.inserir(dadoBanco, idUsuarioLogado)) {
+										System.out.println("\n" + "Banco cadastrada com sucesso");
+									} else {
+										System.out.println("\n" + "Algo deu errado");
+									}
+								} else if (tipo == 2) { // cadastro conta poupança
+									Banco dadoBanco = new Banco(nomeBanco, agencia, numConta, TipoConta.POUPANCA);
+									if (bancoBO.inserir(dadoBanco, idUsuarioLogado)) {
+										System.out.println("\n" + "Banco cadastrado com sucesso");
+									} else {
+										System.out.println("\n" + "Algo deu errado");
+									}
+								}
+							} else if (op == 2)  { // opção de gerar a folha de pagamento no menu do funcionario
+								scan.nextLine();
+								List<FolhaDePagamento> lista = new ArrayList<FolhaDePagamento>();
+								lista = folhaDePagamentoBO.pesquisarTodos(idUsuarioLogado);
+								System.out.println("\n" + "---  Menu de Geração (Folha de Pagamento)  ---");
+								System.out.print("\n" + "Selecione que folha de pagamento você quer gerar");
+								System.out.println("\n\n" + "folhas de pagamento disponíveis:");
+								for (int i = 0; i < lista.size(); i++) {
+									String mesPorExtenso = lista.get(i).getPeriodoInicio().getMonth().getDisplayName(TextStyle.FULL, new Locale("pt", "BR"));
+									int mes = lista.get(i).getPeriodoInicio().getMonthValue();
+									System.out.println((i + 1) + ". Folha de Pagamento refente ao mês " + mes + " (" + mesPorExtenso + ")");
+								}
+								System.out.print("Selecione o número da folha de pagamento: ");
+								int escolha = scan.nextInt();
+								while (escolha < 1 || escolha > lista.size()) {
+									System.out.println("Opção inválida");
+									System.out.print("Selecione o número da folha de pagamento: ");
+									escolha = scan.nextInt();
+								}
+								scan.nextLine();
+								FolhaDePagamento folha = lista.get(escolha - 1);
+								String padrao = "###,###.00";
+								DecimalFormatSymbols simbolos = new DecimalFormatSymbols(new Locale("pt", "BR"));
+								simbolos.setDecimalSeparator(',');
+						        simbolos.setGroupingSeparator('.');
+								DecimalFormat formato = new DecimalFormat(padrao, simbolos);
+								DateTimeFormatter formatacaoDaData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+								try {
+						            // Caminho onde o PDF será salvo
+						            String caminhoArquivo = "FolhaPagamento_" + folha.getFuncionarioCLT().getNome() + ".pdf";
+
+						            // Inicializa o PDF Writer e o Document
+						            PdfWriter writer = new PdfWriter(new File(caminhoArquivo));
+						            PdfDocument pdfDoc = new PdfDocument(writer);
+						            Document document = new Document(pdfDoc);
+
+						            // Adiciona o conteúdo ao PDF
+						            document.add(new Paragraph("--- Folha de Pagamento ---\n\n"));
+						            document.add(new Paragraph("Nome do Funcionário: " + folha.getFuncionarioCLT().getNome()));
+						            document.add(new Paragraph("Data de Emissão da Folha de Pagamento: " + folha.getDataGeracao().format(formatacaoDaData)));
+						            document.add(new Paragraph("Folha de Pagamento referente à: " + formatacaoDaData.format(folha.getPeriodoInicio()) + " a " + formatacaoDaData.format(folha.getPeriodoFim())));
+						            document.add(new Paragraph("Salário Líquido: R$" + formato.format(folha.getValorPago())));
+						            document.add(new Paragraph("\nObservações:\n" + folha.getObservacoes()));
+
+						            // Fecha o documento
+						            document.close();
+						            System.out.println("\nPDF gerado com sucesso: " + caminhoArquivo);
+						        } catch (Exception e) {
+						            System.out.println("Erro ao gerar PDF: " + e.getMessage());
+						        }
+							} else if (op == 3) { // opção de sair no menu do funcionario
 								System.out.println("\n" + "---  Fim do programa  ---");
 								termina = true;
 							}

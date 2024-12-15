@@ -5,39 +5,39 @@ import Classes.DTO.BeneficioDesconto;
 public class BeneficioDescontoBO {
 
 	public boolean inserir(BeneficioDesconto beneficioDesconto, int idFuncionario){
-    	BeneficioDescontoDAO funcionariocltDAO = new BeneficioDescontoDAO();
-        return funcionariocltDAO.inserir(beneficioDesconto, idFuncionario);
-    }
-    /*
-    public boolean alterar(Usuario usuario){
-    	UsuarioDAO usuarioDAO = new UsuarioDAO();
-        return usuarioDAO.alterar(usuario);
+    	BeneficioDescontoDAO beneficioDescontoDAO = new BeneficioDescontoDAO();
+        return beneficioDescontoDAO.inserir(beneficioDesconto, idFuncionario);
     }
     
-    public boolean excluir(Usuario usuario){
-    	UsuarioDAO usuarioDAO = new UsuarioDAO();
-        return usuarioDAO.excluir(usuario);
+    public boolean alterarDescricao(BeneficioDesconto beneficioDesconto, int idFuncionario){
+    	BeneficioDescontoDAO beneficioDescontoDAO = new BeneficioDescontoDAO();
+        return beneficioDescontoDAO.alterarDescricao(beneficioDesconto, idFuncionario);
     }
     
-    public Usuario procurarPorCodigo(Usuario usuario){
-    	UsuarioDAO usuarioDAO = new UsuarioDAO();
-        return usuarioDAO.procurarPorCodigo(usuario);
+    public boolean excluir(int idFuncionario){
+    	BeneficioDescontoDAO beneficioDescontoDAO = new BeneficioDescontoDAO();
+        return beneficioDescontoDAO.excluir(idFuncionario);
     }
     
-    public Usuario procurarPorDescricao(Usuario usuario){
-    	UsuarioDAO usuarioDAO = new UsuarioDAO();
-        return usuarioDAO.procurarPorDescricao(usuario);
+    public BeneficioDesconto procurarPorFuncionario(int idFuncionario){
+    	BeneficioDescontoDAO beneficioDescontoDAO = new BeneficioDescontoDAO();
+        return beneficioDescontoDAO.procurarPorFuncionario(idFuncionario);
     }
     
-    public boolean existe(FuncionarioCLT funcionarioclt, int idUsuario){
-    	FuncionarioCLTDAO funcionariocltDAO = new FuncionarioCLTDAO();
-        return funcionariocltDAO.existe(funcionarioclt, idUsuario);
+    public BeneficioDesconto procurarPorDescricao(String pesquisa){
+    	BeneficioDescontoDAO beneficioDescontoDAO = new BeneficioDescontoDAO();
+        return beneficioDescontoDAO.procurarPorDescricao(pesquisa);
     }
     
-    public List<Usuario> pesquisarTodos(){
-    	UsuarioDAO usuarioDAO = new UsuarioDAO();
-        return usuarioDAO.pesquisarTodos();
-    }*/
+    public boolean existe(int idFuncionario){
+    	BeneficioDescontoDAO beneficioDescontoDAO = new BeneficioDescontoDAO();
+        return beneficioDescontoDAO.existe(idFuncionario);
+    }
+    
+    public List<BeneficioDesconto> pesquisarTodos(){
+    	BeneficioDescontoDAO beneficioDescontoDAO = new BeneficioDescontoDAO();
+        return beneficioDescontoDAO.pesquisarTodos();
+    }
 	
 	public List<BeneficioDesconto> buscarDescontosPorFuncionario(int idFuncionario){
     	BeneficioDescontoDAO beneficioDescontoDAO = new BeneficioDescontoDAO();

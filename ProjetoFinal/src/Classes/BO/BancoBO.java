@@ -1,4 +1,5 @@
 package Classes.BO;
+import java.util.List;
 import Classes.DAO.BancoDAO;
 import Classes.DTO.Banco;
 public class BancoBO {
@@ -7,34 +8,34 @@ public class BancoBO {
 		BancoDAO bancoDAO = new BancoDAO();
         return bancoDAO.inserir(banco, idFuncionario);
     }
-    /*
-    public boolean alterar(Usuario usuario){
-    	UsuarioDAO usuarioDAO = new UsuarioDAO();
-        return usuarioDAO.alterar(usuario);
+    
+    public boolean alterarNomeBanco(Banco banco, int idFuncionario){
+    	BancoDAO bancoDAO = new BancoDAO();
+        return bancoDAO.alterarNomeBanco(banco, idFuncionario);
     }
     
-    public boolean excluir(Usuario usuario){
-    	UsuarioDAO usuarioDAO = new UsuarioDAO();
-        return usuarioDAO.excluir(usuario);
+    public boolean excluir(int idFuncionario){
+    	BancoDAO bancoDAO = new BancoDAO();
+        return bancoDAO.excluir(idFuncionario);
     }
     
-    public Usuario procurarPorCodigo(Usuario usuario){
-    	UsuarioDAO usuarioDAO = new UsuarioDAO();
-        return usuarioDAO.procurarPorCodigo(usuario);
+    public Banco procurarPorId(int idFuncionario){
+    	BancoDAO bancoDAO = new BancoDAO();
+        return bancoDAO.procurarPorId(idFuncionario);
     }
     
-    public Usuario procurarPorDescricao(Usuario usuario){
-    	UsuarioDAO usuarioDAO = new UsuarioDAO();
-        return usuarioDAO.procurarPorDescricao(usuario);
+    public Banco procurarPorNomeBanco(String pesquisa){
+    	BancoDAO bancoDAO = new BancoDAO();
+        return bancoDAO.procurarPorNomeBanco(pesquisa);
     }
     
-    public boolean existe(FuncionarioCLT funcionarioclt, int idUsuario){
-    	FuncionarioCLTDAO funcionariocltDAO = new FuncionarioCLTDAO();
-        return funcionariocltDAO.existe(funcionarioclt, idUsuario);
+    public boolean existe(int idFuncionario){
+    	BancoDAO bancoDAO = new BancoDAO();
+        return bancoDAO.existe(idFuncionario);
     }
     
-    public List<Usuario> pesquisarTodos(){
-    	UsuarioDAO usuarioDAO = new UsuarioDAO();
-        return usuarioDAO.pesquisarTodos();
-    }*/
+    public List<Banco> pesquisarTodos(){
+    	BancoDAO bancoDAO = new BancoDAO();
+        return bancoDAO.pesquisarTodos();
+    }
 }

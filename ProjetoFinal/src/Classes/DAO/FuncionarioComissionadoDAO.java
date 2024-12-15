@@ -66,18 +66,25 @@ final String NOMEDATABELA = "funcionario_comissionado";
              return false;
         }
     }
-    /*
-    public Usuario procurarPorCodigo(Usuario marca) {
+    
+    public FuncionarioComissionado procurarPorId(int idFuncionario) {
         try {
             Connection conn = Conexao.conectar();
-            String sql = "SELECT * FROM " + NOMEDATABELA + " WHERE codigo = ?;";
+            String sql = "SELECT nome, email, senha, cargo, salario_base, comissao_percentual, vendas_realizadas, bonus FROM usuario, funcionario, " + NOMEDATABELA + " WHERE funcionario_comissionado.id = " + idFuncionario + " AND usuario.id = funcionario_comissionado.id AND usuario.id = funcionario.id;";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, marca.getCodigo());
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                Marca obj = new Marca();
-                obj.setCodigo(rs.getInt(1));
-                obj.setDescricao(rs.getString(2));
+            	FuncionarioComissionado obj = new FuncionarioComissionado(rs.getString(1), rs.getString(2), rs.getString(3), TipoUsuario.FUNCIONARIO, StatusUsuario.ATIVADO);
+                obj.setNome(rs.getString(1));
+                obj.setEmail(rs.getString(2));
+                obj.setSenha(rs.getString(3));
+                obj.setTipo(TipoUsuario.FUNCIONARIO);
+                obj.setStatus(StatusUsuario.ATIVADO);
+                obj.setCargo(rs.getString(4));
+                obj.setSalarioBase(rs.getDouble(5));
+                obj.setComissao(rs.getDouble(5));
+                obj.setVendasRealizadas(rs.getDouble(5));
+                obj.setBonus(rs.getDouble(5));
                 ps.close();
                 rs.close();
                 conn.close();
@@ -94,17 +101,24 @@ final String NOMEDATABELA = "funcionario_comissionado";
         }
     }
     
-    public Usuario procurarPorDescricao(Usuario marca) {
+    public FuncionarioComissionado procurarPorDescricao(int idFuncionario) {
         try {
             Connection conn = Conexao.conectar();
-            String sql = "SELECT * FROM " + NOMEDATABELA + " WHERE descricao = ?;";
+            String sql = "SELECT nome, email, senha, cargo, salario_base, comissao_percentual, vendas_realizadas, bonus FROM usuario, funcionario, " + NOMEDATABELA + " WHERE funcionario_comissionado.id = " + idFuncionario + " AND usuario.id = funcionario_comissionado.id AND usuario.id = funcionario.id;";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, marca.getDescricao());
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-            	Usuario obj = new Usuario();
-                obj.setCodigo(rs.getInt(1));
-                obj.setDescricao(rs.getString(2));
+            	FuncionarioComissionado obj = new FuncionarioComissionado(rs.getString(1), rs.getString(2), rs.getString(3), TipoUsuario.FUNCIONARIO, StatusUsuario.ATIVADO);
+                obj.setNome(rs.getString(1));
+                obj.setEmail(rs.getString(2));
+                obj.setSenha(rs.getString(3));
+                obj.setTipo(TipoUsuario.FUNCIONARIO);
+                obj.setStatus(StatusUsuario.ATIVADO);
+                obj.setCargo(rs.getString(4));
+                obj.setSalarioBase(rs.getDouble(5));
+                obj.setComissao(rs.getDouble(5));
+                obj.setVendasRealizadas(rs.getDouble(5));
+                obj.setBonus(rs.getDouble(5));
                 ps.close();
                 rs.close();
                 conn.close();
@@ -119,7 +133,7 @@ final String NOMEDATABELA = "funcionario_comissionado";
             return null;
         }
     }
-    */
+    
     public boolean existe(FuncionarioComissionado funcionarioComissionado, int idUsuario) {
         try {
             Connection conn = Conexao.conectar();
@@ -139,10 +153,10 @@ final String NOMEDATABELA = "funcionario_comissionado";
         return false;
     }
     
-    public List<FuncionarioComissionado> pesquisarTodos(int idFuncionario) {
+    public List<FuncionarioComissionado> pesquisarTodos() {
         try {
             Connection conn = Conexao.conectar();
-            String sql = "SELECT nome, email, senha, cargo, salario_base, comissao_percentual, vendas_realizadas, bonus FROM usuario, funcionario, " + NOMEDATABELA + " WHERE funcionario_comissionado.id = " + idFuncionario + " AND usuario.id = funcionario_comissionado.id AND usuario.id = funcionario.id;";
+            String sql = "SELECT nome, email, senha, cargo, salario_base, comissao_percentual, vendas_realizadas, bonus FROM usuario, funcionario, " + NOMEDATABELA + ";";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             List<FuncionarioComissionado> listObj = montarLista(rs);

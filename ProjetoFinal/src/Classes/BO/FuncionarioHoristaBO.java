@@ -37,9 +37,9 @@ public class FuncionarioHoristaBO {
         return funcionarioHoristaDAO.existe(idUsuario);
     }
     
-    public List<FuncionarioHorista> pesquisarTodos(int idFuncionario){
+    public List<FuncionarioHorista> pesquisarTodos(){
     	FuncionarioHoristaDAO funcionarioHoristaDAO = new FuncionarioHoristaDAO();
-        return funcionarioHoristaDAO.pesquisarTodos(idFuncionario);
+        return funcionarioHoristaDAO.pesquisarTodos();
     }
 	
     public int pegarId(int id){
