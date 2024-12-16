@@ -50,9 +50,9 @@ class FuncionarioHorista {
     - cargo : String
     - salarioHora : double
     - horasTrabalhadas : double
+    - horasExtras: double
     - valorHorasExtras : double
-    + registrarHoras(double) : void
-    + registrarHorasExtras(double) : void
+    + getValorHorasExtras() : double
     + calcularPagamento(int) : double
 }
 
@@ -62,8 +62,6 @@ class FuncionarioComissionado {
     - comissao : double
     - vendasRealizadas : double
     - bonus : double
-    + registrarVendas(double) : void
-    + registrarBonus(double) : void
     + calcularPagamento(int) : double
 }
 
