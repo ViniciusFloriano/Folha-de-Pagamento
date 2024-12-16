@@ -91,19 +91,18 @@ public class Main {
 						do { // menu do admim
 							System.out.println("\n" + "---  Menu Admim  ---"
 											 + "\n" + "1. ativar/desativar um usuário"
-											 + "\n" + "2. cadastrar um usuário"
-											 + "\n" + "3. cadastrar um funcionário"
-											 + "\n" + "4. cadastrar os beneficios/descontos do funcionario CLT"
-											 + "\n" + "5. cadastrar um banco"
-											 + "\n" + "6. gerar uma folha de pagamento"
-											 + "\n" + "7. sair");
+											 + "\n" + "2. cadastrar um funcionário"
+											 + "\n" + "3. cadastrar os beneficios/descontos do funcionario CLT"
+											 + "\n" + "4. cadastrar um banco"
+											 + "\n" + "5. gerar uma folha de pagamento"
+											 + "\n" + "6. sair");
 							System.out.print("Escholha sua opção: ");
 							op = scan.nextInt();
-							while (op < 1 || op > 7) {
+							while (op < 1 || op > 6) {
 								System.out.println("Opção inválida");
 								System.out.print("Escholha sua opção: ");
 								op = scan.nextInt();
-								if (op == 7) {
+								if (op == 6) {
 									termina = true;
 									break;
 								}
@@ -146,16 +145,7 @@ public class Main {
 										System.out.println("\n" + "Algo deu errado");
 									}
 								}
-							} else if (op == 2) { // opção de cadastro no menu do admim
-								
-								
-								
-								
-								// em pensamento 
-								
-								
-								
-							} else if (op == 3) { // opção de cadastrar funcionario no menu do admim
+							} else if (op == 2) { // opção de cadastrar funcionario no menu do admim
 								scan.nextLine();
 								System.out.println("\n" + "---  Menu de Cadastro (funcionario) ---");
 								System.out.print("\n" + "Nome: ");
@@ -243,7 +233,7 @@ public class Main {
 										}
 									}
 								}
-							} else if (op == 4) { // opção de cadastrar um beneficio/desconto no menu do admim
+							} else if (op == 3) { // opção de cadastrar um beneficio/desconto no menu do admim
 								scan.nextLine();
 								List<Usuario> lista = new ArrayList<Usuario>();
 								lista = usuarioBO.pesquisarTodosFuncionarios();
@@ -293,7 +283,7 @@ public class Main {
 										System.out.println("\n" + "Algo deu errado");
 									}
 								}
-							} else if (op == 5) { // opção de cadastrar o banco no menu do admim
+							} else if (op == 4) { // opção de cadastrar o banco no menu do admim
 								scan.nextLine();
 								List<Usuario> lista = new ArrayList<Usuario>();
 								lista = usuarioBO.pesquisarTodosFuncionarios();
@@ -338,7 +328,7 @@ public class Main {
 										System.out.println("\n" + "Algo deu errado");
 									}
 								}
-							} else if (op == 6) { // opção de criar uma folha de pagamento
+							} else if (op == 5) { // opção de criar uma folha de pagamento
 								scan.nextLine();
 								List<Usuario> lista = new ArrayList<Usuario>();
 								lista = usuarioBO.pesquisarTodosFuncionarios();
@@ -423,7 +413,7 @@ public class Main {
 								        }
 									}
 									scan.nextLine();
-								} else if (funcTipo == 2) {
+								} else if (funcTipo == 2) { // 
 									StringBuilder texto = new StringBuilder();
 									idFuncionario = funcionarioHoristaBO.pegarId(idTransicao);
 									salario = funcionarioHoristaBO.pegarSalarioHora(idFuncionario);
@@ -478,7 +468,7 @@ public class Main {
 								        }
 									}
 									scan.nextLine();
-								} else if (funcTipo == 3) {
+								} else if (funcTipo == 3) { // tipo comissionado
 									StringBuilder texto = new StringBuilder();
 									idFuncionario = funcionarioComissionadoBO.pegarId(idTransicao);
 									salario = funcionarioComissionadoBO.pegarSalarioBase(idFuncionario);
@@ -540,7 +530,7 @@ public class Main {
 								} else {
 									System.out.println("\n" + "Erro ao Inserir");			
 								}
-							} else if (op == 7) { // opção de sair no menu do admim
+							} else if (op == 6) { // opção de sair no menu do admim
 								System.out.println("\n" + "---  Fim do programa  ---");
 								termina = true;
 							}
