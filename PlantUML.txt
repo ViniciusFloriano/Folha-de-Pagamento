@@ -71,7 +71,7 @@ class FuncionarioComissionado {
 class BeneficioDesconto {
     - descricao : String
     - valor : double
-    - tipo : Tipo
+    - tipo : TipoBenDes
 }
 
 ' Classe Banco
@@ -85,7 +85,9 @@ class Banco {
 
 ' Classe FolhaDePagamento
 class FolhaDePagamento {
-    - funcionario : Usuario
+    - funcionarioCLT : FuncionarioCLT
+    - funcionarioHorista : FuncionarioHorista
+    - funcionarioComissionada : FuncionarioComissionado
     - dataGeracao : LocalDate
     - periodoInicio : LocalDate
     - periodoFim : LocalDate
