@@ -37,6 +37,16 @@ public class UsuarioBO {
         return usuarioDAO.existe(usuario);
     }
     
+    public List<Usuario> pesquisarTodosFuncionariosSemBanco(){
+    	UsuarioDAO usuarioDAO = new UsuarioDAO();
+        return usuarioDAO.pesquisarTodosFuncionariosSemBanco();
+    }
+    
+    public List<Usuario> pesquisarTodosFuncionariosCLT(){
+    	UsuarioDAO usuarioDAO = new UsuarioDAO();
+        return usuarioDAO.pesquisarTodosFuncionariosCLT();
+    }
+    
     public List<Usuario> pesquisarTodosFuncionarios(){
     	UsuarioDAO usuarioDAO = new UsuarioDAO();
         return usuarioDAO.pesquisarTodosFuncionarios();
@@ -82,5 +92,10 @@ public class UsuarioBO {
     public int verificaFuncTipo(int idUsuario){
     	UsuarioDAO usuarioDAO = new UsuarioDAO();
         return usuarioDAO.verificaFuncTipo(idUsuario);
+    }
+    
+    public boolean temBanco(Usuario usuario, int idUsuario) {
+    	UsuarioDAO usuarioDAO = new UsuarioDAO();
+        return usuarioDAO.temBanco(usuario, idUsuario);
     }
 }

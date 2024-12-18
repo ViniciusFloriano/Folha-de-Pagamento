@@ -158,6 +158,99 @@ public class UsuarioDAO {
         }
     }
     
+    public List<Usuario> pesquisarTodosFuncionariosSemBanco() {
+        try {
+            Connection conn = Conexao.conectar();
+            String sql = "SELECT * FROM " + NOMEDATABELA + " WHERE tipo = 'FUNCIONARIO' AND status = 'ATIVADO';";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            List<Usuario> listObj = montarListaSemBanco(rs);
+            return listObj;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public List<Usuario> montarListaSemBanco(ResultSet rs) {
+        List<Usuario> listObj = new ArrayList<Usuario>();
+        try {
+            while (rs.next()) {
+            	Connection conn = Conexao.conectar();
+            	String sql2 = "SELECT * FROM " + NOMEDATABELA + ", banco WHERE email LIKE ? AND usuario.id = ? AND usuario.id = banco.funcionario_id;";
+                PreparedStatement ps2 = conn.prepareStatement(sql2);
+                ps2.setString(1, rs.getString(3));
+                ps2.setInt(2, rs.getInt(1));
+                ResultSet rs2 = ps2.executeQuery();
+                Usuario obj = new Usuario();
+                obj.setNome(rs.getString(2));
+                obj.setEmail(rs.getString(3));
+                obj.setSenha(rs.getString(4));
+                if ("ADMINISTRADOR".equals(rs.getString(5))) {
+                	obj.setTipo(TipoUsuario.ADMINISTRADOR);
+                } else if ("FUNCIONARIO".equals(rs.getString(5))) {
+                	obj.setTipo(TipoUsuario.FUNCIONARIO);
+                }
+                if ("ATIVADO".equals(rs.getString(6))) {
+                	obj.setStatus(StatusUsuario.ATIVADO);
+                } else if ("DESATIVADO".equals(rs.getString(6))) {
+                	obj.setStatus(StatusUsuario.DESATIVADO);
+                }
+                listObj.add(obj);
+                if (rs2.next()) {
+                	listObj.remove(obj);
+                }
+                
+            }
+            return listObj;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public List<Usuario> pesquisarTodosFuncionariosCLT() {
+        try {
+            Connection conn = Conexao.conectar();
+            String sql = "SELECT * FROM " + NOMEDATABELA + ", funcionario_clt WHERE tipo = 'FUNCIONARIO' AND status = 'ATIVADO' AND usuario.id = funcionario_clt.id;";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            List<Usuario> listObj = montarListaCLT(rs);
+            return listObj;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public List<Usuario> montarListaCLT(ResultSet rs) {
+        List<Usuario> listObj = new ArrayList<Usuario>();
+        try {
+            while (rs.next()) {
+                Usuario obj = new Usuario();
+                obj.setNome(rs.getString(2));
+                obj.setEmail(rs.getString(3));
+                obj.setSenha(rs.getString(4));
+                if ("ADMINISTRADOR".equals(rs.getString(5))) {
+                	obj.setTipo(TipoUsuario.ADMINISTRADOR);
+                } else if ("FUNCIONARIO".equals(rs.getString(5))) {
+                	obj.setTipo(TipoUsuario.FUNCIONARIO);
+                }
+                if ("ATIVADO".equals(rs.getString(6))) {
+                	obj.setStatus(StatusUsuario.ATIVADO);
+                } else if ("DESATIVADO".equals(rs.getString(6))) {
+                	obj.setStatus(StatusUsuario.DESATIVADO);
+                }
+                listObj.add(obj);
+                
+            }
+            return listObj;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
     public List<Usuario> pesquisarTodosFuncionarios() {
         try {
             Connection conn = Conexao.conectar();
@@ -202,7 +295,7 @@ public class UsuarioDAO {
     public int pegarId(Usuario usuario) {
         try {
             Connection conn = Conexao.conectar();
-            String sql = "SELECT id FROM " + NOMEDATABELA + " WHERE email = ?;";
+            String sql = "SELECT id FROM " + NOMEDATABELA + " WHERE email LIKE ?;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, usuario.getEmail());
             ResultSet rs = ps.executeQuery();
@@ -358,4 +451,26 @@ public class UsuarioDAO {
         }
         return tipo;
     }
+    
+    public boolean temBanco(Usuario usuario, int idUsuario) {
+        try {
+            Connection conn = Conexao.conectar();
+            String sql = "SELECT * FROM " + NOMEDATABELA + ", banco WHERE email LIKE ? AND usuario.id = ? AND usuario.id = banco.funcionario_id;";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, usuario.getEmail());
+            ps.setInt(2, idUsuario);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                ps.close();
+                rs.close();
+                conn.close();
+                return true;
+            }
+        } catch (Exception e) {
+           e.printStackTrace();
+            return false;
+        }
+        return false;
+    }
+    
 }
