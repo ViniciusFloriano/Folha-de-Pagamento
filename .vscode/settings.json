@@ -1,0 +1,27 @@
+{
+    "java.project.sourcePaths": ["src"],
+    "java.project.outputPath": "bin",
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "src/lib/barcodes-9.1.0.jar",
+        "src/lib/bouncy-castle-adapter-9.1.0.jar",
+        "src/lib/bouncy-castle-connector-9.1.0.jar",
+        "src/lib/bouncy-castle-fips-adapter-9.1.0.jar",
+        "src/lib/commons-9.1.0.jar",
+        "src/lib/font-asian-9.1.0.jar",
+        "src/lib/forms-9.1.0.jar",
+        "src/lib/hyph-9.1.0.jar",
+        "src/lib/io-9.1.0.jar",
+        "src/lib/kernel-9.1.0.jar",
+        "src/lib/layout-9.1.0.jar",
+        "src/lib/mysql-connector-java.jar",
+        "src/lib/pdfa-9.1.0.jar",
+        "src/lib/pdftest-9.1.0.jar",
+        "src/lib/pdfua-9.1.0.jar",
+        "src/lib/sign-9.1.0.jar",
+        "src/lib/slf4j-api-2.0.16.jar",
+        "src/lib/slf4j-simple-2.0.16.jar",
+        "src/lib/styled-xml-parser-9.1.0.jar",
+        "src/lib/svg-9.1.0.jar"
+    ]
+}
