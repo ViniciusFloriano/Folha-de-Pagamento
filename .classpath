@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="C:/xampp/htdocs/BCC/ProjetoFinal/src/lib/barcodes-9.1.0.jar"/>
+	<classpathentry kind="lib" path="C:/xampp/htdocs/BCC/ProjetoFinal/src/lib/bouncy-castle-adapter-9.1.0.jar"/>
+	<classpathentry kind="lib" path="C:/xampp/htdocs/BCC/ProjetoFinal/src/lib/bouncy-castle-connector-9.1.0.jar"/>
+	<classpathentry kind="lib" path="C:/xampp/htdocs/BCC/ProjetoFinal/src/lib/bouncy-castle-fips-adapter-9.1.0.jar"/>
+	<classpathentry kind="lib" path="C:/xampp/htdocs/BCC/ProjetoFinal/src/lib/commons-9.1.0.jar"/>
+	<classpathentry kind="lib" path="C:/xampp/htdocs/BCC/ProjetoFinal/src/lib/font-asian-9.1.0.jar"/>
+	<classpathentry kind="lib" path="C:/xampp/htdocs/BCC/ProjetoFinal/src/lib/forms-9.1.0.jar"/>
+	<classpathentry kind="lib" path="C:/xampp/htdocs/BCC/ProjetoFinal/src/lib/hyph-9.1.0.jar"/>
+	<classpathentry kind="lib" path="C:/xampp/htdocs/BCC/ProjetoFinal/src/lib/io-9.1.0.jar"/>
+	<classpathentry kind="lib" path="C:/xampp/htdocs/BCC/ProjetoFinal/src/lib/kernel-9.1.0.jar"/>
+	<classpathentry kind="lib" path="C:/xampp/htdocs/BCC/ProjetoFinal/src/lib/layout-9.1.0.jar"/>
+	<classpathentry kind="lib" path="C:/xampp/htdocs/BCC/ProjetoFinal/src/lib/mysql-connector-java.jar"/>
+	<classpathentry kind="lib" path="C:/xampp/htdocs/BCC/ProjetoFinal/src/lib/pdfa-9.1.0.jar"/>
+	<classpathentry kind="lib" path="C:/xampp/htdocs/BCC/ProjetoFinal/src/lib/pdftest-9.1.0.jar"/>
+	<classpathentry kind="lib" path="C:/xampp/htdocs/BCC/ProjetoFinal/src/lib/pdfua-9.1.0.jar"/>
+	<classpathentry kind="lib" path="C:/xampp/htdocs/BCC/ProjetoFinal/src/lib/sign-9.1.0.jar"/>
+	<classpathentry kind="lib" path="C:/xampp/htdocs/BCC/ProjetoFinal/src/lib/slf4j-api-2.0.16.jar"/>
+	<classpathentry kind="lib" path="C:/xampp/htdocs/BCC/ProjetoFinal/src/lib/slf4j-simple-2.0.16.jar"/>
+	<classpathentry kind="lib" path="C:/xampp/htdocs/BCC/ProjetoFinal/src/lib/styled-xml-parser-9.1.0.jar"/>
+	<classpathentry kind="lib" path="C:/xampp/htdocs/BCC/ProjetoFinal/src/lib/svg-9.1.0.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

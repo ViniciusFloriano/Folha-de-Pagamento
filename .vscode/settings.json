@@ -2,7 +2,7 @@
     "java.project.sourcePaths": ["src"],
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
-        "lib/**/*.jar",
+        "src/lib/*.jar",
         "src/lib/barcodes-9.1.0.jar",
         "src/lib/bouncy-castle-adapter-9.1.0.jar",
         "src/lib/bouncy-castle-connector-9.1.0.jar",
